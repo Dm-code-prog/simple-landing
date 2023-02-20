@@ -164,6 +164,9 @@ export default function Home() {
                 Get link
               </button>
             </form>
+            <button className="mobile-button">
+                Get link
+            </button>
             <p class="policy">
               By clicking the button, you consent to the processing of personal data in accordance with the
               rules for the
