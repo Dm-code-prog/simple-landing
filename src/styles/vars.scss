@@ -1,0 +1,13 @@
+$light-background-color: #F8FBFE;
+$light-element-color: #000000;
+$dark-background-color: #1E1E1E;
+$secondary-dark-background-color: #16161660;
+$dark-element-background-color: #45454560;
+$dark-element-color: #ffffff;
+$accent-color: #5356D9;
+
+$background-color: $dark-background-color; // main background color
+$secondary-background-color: $secondary-dark-background-color;
+$element-background-color: $dark-element-background-color;
+$element-color: $dark-element-color; // main element color
+$button-color: $accent-color;
