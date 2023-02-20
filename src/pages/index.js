@@ -5,10 +5,16 @@ import phoneImg from "@/images/iphone-dimension.png";
 import howItWorksImg from "@/images/iphone-screen.png";
 import footerPhoneImg from "@/images/iphone.png";
 import "@/scripts/index";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+
 export default function Home() {
+  const [number, setNumber] = useState();
+  console.log(number);
+
   useEffect(() => {
     if (process.browser) {
       const navbar = document.getElementById("landing-nav");
@@ -28,10 +34,7 @@ export default function Home() {
     <>
       <Head>
         <title>simple</title>
-        <meta
-          name="description"
-          content="Simple way to transfer money with zero crypto knowledge"
-        />
+        <meta name="description" content="Simple way to transfer money with zero crypto knowledge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" />
       </Head>
@@ -72,12 +75,7 @@ export default function Home() {
             <h1 class="header">Simple crypto payments by phone number</h1>
             {/* <form id="contact-container"> */}
             {/* <input class="tel" type="tel" placeholder="Your phone number" /> */}
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://simp1e-demo.netlify.app/"
-              class="button"
-            >
+            <a target="_blank" rel="noreferrer" href="https://simp1e-demo.netlify.app/" class="button">
               Try demo
             </a>
             {/* </form> */}
@@ -110,48 +108,37 @@ export default function Home() {
           <div class="item">
             <h4 class="header">Phone number is a User Identity</h4>
             <p class="text">
-              Automatically create a crypto wallet or add your existing one and
-              link it with your phone number.
+              Automatically create a crypto wallet or add your existing one and link it with your phone
+              number.
             </p>
           </div>
 
           <div class="item">
             <h4 class="header">Transfer to friends directly from messages</h4>
             <p class="text">
-              Find your friends in the contact list and send crypto simp1e as a
-              message. View the history of transfers with your friends in a form
-              of a chat.
+              Find your friends in the contact list and send crypto simp1e as a message. View the history of
+              transfers with your friends in a form of a chat.
             </p>
           </div>
 
           <div class="item">
             <h4 class="header">Simple Protocol</h4>
-            <p class="text">
-              Transfer crypto from and to any network. We will cover everything
-              for you.
-            </p>
+            <p class="text">Transfer crypto from and to any network. We will cover everything for you.</p>
           </div>
 
           <div class="item">
             <h4 class="header">Pay by a debit card in crypto</h4>
-            <p class="text">
-              Issuing a Simple debit card and pay with your cryptocurrencies
-              anywhere
-            </p>
+            <p class="text">Issuing a Simple debit card and pay with your cryptocurrencies anywhere</p>
           </div>
 
           <div class="item">
             <h4 class="header">Receive payments for self-employed</h4>
-            <p class="text">
-              Accept payments in crypto in any situation you want.
-            </p>
+            <p class="text">Accept payments in crypto in any situation you want.</p>
           </div>
 
           <div class="item">
             <h4 class="header">Seamless fiat to crypto conversion</h4>
-            <p class="text">
-              Send crypto and receive fiat money just in one transaction.
-            </p>
+            <p class="text">Send crypto and receive fiat money just in one transaction.</p>
           </div>
         </div>
       </section>
@@ -160,25 +147,26 @@ export default function Home() {
         <div class="get-app-container">
           <div class="item-container">
             <h3 class="header">Get the app</h3>
-            <p class="paragraph">
-              Leave your phone number — we will send a link to the app
-            </p>
+            <p class="paragraph">Leave your phone number — we will send a link to the app</p>
             <form id="form-container">
-              <input class="tel" type="tel" placeholder="+7 000 000 00 00" />
+              <PhoneInput className="tel" placeholder="+971 50 060 600" value={number} onChange={setNumber} />
               <button
                 class="button"
                 onClick={() =>
-                  alert(
-                    "Thank you! We will share the link with you as soon as possible."
-                  )
+                  /* 
+                  function(number){
+                    your code
+                  }
+                  */
+                alert("Thank you! We will share the link with you as soon as possible.")
                 }
               >
                 Get link
               </button>
             </form>
             <p class="policy">
-              By clicking the button, you consent to the processing of personal
-              data in accordance with the rules for the
+              By clicking the button, you consent to the processing of personal data in accordance with the
+              rules for the
               <Link target="_blank" href="/privacy-policy">
                 <b>&nbsp;the privacy policy.</b>
               </Link>
@@ -191,8 +179,8 @@ export default function Home() {
       </section>
       <footer className="footer">
         <p>
-          All rights are reserved by SIMPLE PROTOCOL TECHNOLOGIES LLC registered
-          in SCHON BUSINESS PARK, DIP-1, Dubai, UAE, 346-019
+          All rights are reserved by SIMPLE PROTOCOL TECHNOLOGIES LLC registered in SCHON BUSINESS PARK,
+          DIP-1, Dubai, UAE, 346-019
         </p>
       </footer>
       {/* <main className={styles.main}>
