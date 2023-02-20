@@ -19,6 +19,7 @@ const PrivacyPolicy = () => {
         <a
           href="https://www.freeprivacypolicy.com/free-privacy-policy-generator/"
           target="_blank"
+          rel="noreferrer"
         >
           Free Privacy Policy Generator
         </a>
@@ -110,7 +111,7 @@ const PrivacyPolicy = () => {
             <strong>Website</strong> refers to Simple, accessible from{" "}
             <a
               href="http://simp1e.io"
-              rel="external nofollow noopener"
+              rel="external nofollow noopener noreferrer"
               target="_blank"
             >
               http://simp1e.io
@@ -145,11 +146,11 @@ const PrivacyPolicy = () => {
       <h3>Usage Data</h3>
       <p>Usage Data is collected automatically when using the Service.</p>
       <p>
-        Usage Data may include information such as Your Device's Internet
-        Protocol address (e.g. IP address), browser type, browser version, the
-        pages of our Service that You visit, the time and date of Your visit,
-        the time spent on those pages, unique device identifiers and other
-        diagnostic data.
+        Usage Data may include information such as Your Device Internet Protocol
+        address (e.g. IP address), browser type, browser version, the pages of
+        our Service that You visit, the time and date of Your visit, the time
+        spent on those pages, unique device identifiers and other diagnostic
+        data.
       </p>
       <p>
         When You access the Service by or through a mobile device, We may
@@ -198,6 +199,7 @@ const PrivacyPolicy = () => {
         <a
           href="https://www.freeprivacypolicy.com/blog/sample-privacy-policy-template/#Use_Of_Cookies_And_Tracking"
           target="_blank"
+          rel="noreferrer"
         >
           Free Privacy Policy website
         </a>{" "}
@@ -283,7 +285,7 @@ const PrivacyPolicy = () => {
           <p>
             <strong>To contact You:</strong> To contact You by email, telephone
             calls, SMS, or other equivalent forms of electronic communication,
-            such as a mobile application's push notifications regarding updates
+            such as a mobile applications push notifications regarding updates
             or informative communications related to the functionalities,
             products or contracted services, including the security updates,
             when necessary or reasonable for their implementation.
@@ -379,7 +381,7 @@ const PrivacyPolicy = () => {
       </p>
       <h2>Transfer of Your Personal Data</h2>
       <p>
-        Your information, including Personal Data, is processed at the Company's
+        Your information, including Personal Data, is processed at the Companys
         operating offices and in any other places where the parties involved in
         the processing are located. It means that this information may be
         transferred to — and maintained on — computers located outside of Your
@@ -456,7 +458,7 @@ const PrivacyPolicy = () => {
         means to protect Your Personal Data, We cannot guarantee its absolute
         security.
       </p>
-      <h1>Children's Privacy</h1>
+      <h1>Childrens Privacy</h1>
       <p>
         Our Service does not address anyone under the age of 13. We do not
         knowingly collect personally identifiable information from anyone under
@@ -469,14 +471,13 @@ const PrivacyPolicy = () => {
       <p>
         If We need to rely on consent as a legal basis for processing Your
         information and Your country requires consent from a parent, We may
-        require Your parent's consent before We collect and use that
-        information.
+        require Your parents consent before We collect and use that information.
       </p>
       <h1>Links to Other Websites</h1>
       <p>
         Our Service may contain links to other websites that are not operated by
         Us. If You click on a third party link, You will be directed to that
-        third party's site. We strongly advise You to review the Privacy Policy
+        third partys site. We strongly advise You to review the Privacy Policy
         of every site You visit.
       </p>
       <p>

@@ -74,6 +74,7 @@ export default function Home() {
             {/* <input class="tel" type="tel" placeholder="Your phone number" /> */}
             <a
               target="_blank"
+              rel="noreferrer"
               href="https://simp1e-demo.netlify.app/"
               class="button"
             >
