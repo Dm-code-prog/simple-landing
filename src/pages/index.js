@@ -10,6 +10,8 @@ import Link from "next/link";
 
 import Tilt from "react-parallax-tilt";
 
+import { motion } from "framer-motion";
+
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import TransferCards from "@/components/TransferCards";
@@ -40,6 +42,18 @@ const transfersText = [
     p: "Send crypto and receive fiat money just in one transaction.",
   },
 ];
+
+const sectionAnimation = {
+  hidden: {
+    y: -150,
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {duration: 0.6}
+  },
+};
 
 export default function Home() {
   const [number, setNumber] = useState();
@@ -116,7 +130,12 @@ export default function Home() {
         </div>
       </header>
 
-      <section class="work-container">
+      <motion.section
+        variants={sectionAnimation}
+        initial="hidden"
+        whileInView="visible"
+        class="work-container"
+      >
         <p class="anchor" id="work"></p>
         <div class="item-container">
           <h3 class="header">How it works</h3>
@@ -129,17 +148,28 @@ export default function Home() {
             <Image src={howItWorksImg} draggable="false" />
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section class="functional-container">
+      <motion.section
+        variants={sectionAnimation}
+        initial="hidden"
+        whileInView="visible"
+        class="functional-container"
+      >
         <p class="anchor" id="about-us"></p>
         <h3 class="header">Transfers made simple</h3>
         <div class="functional-item-container">
           <TransferCards textArray={transfersText} />
         </div>
-      </section>
+      </motion.section>
 
-      <section id="get-app" class="get-app-wrapper">
+      <motion.section
+        variants={sectionAnimation}
+        initial="hidden"
+        whileInView="visible"
+        id="get-app"
+        class="get-app-wrapper"
+      >
         <div class="get-app-container">
           <div class="item-container">
             <h3 class="header">Get the app</h3>
@@ -173,7 +203,7 @@ export default function Home() {
             <Image class="decoration-item" src={footerPhoneImg} alt="" />
           </div>
         </div>
-      </section>
+      </motion.section>
       <footer className="footer">
         <p>
           All rights are reserved by SIMPLE PROTOCOL TECHNOLOGIES LLC registered in SCHON BUSINESS PARK,
