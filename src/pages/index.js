@@ -10,7 +10,7 @@ import Link from "next/link";
 
 import Tilt from "react-parallax-tilt";
 
-import { motion } from "framer-motion";
+import { easeInOut, motion } from "framer-motion";
 
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
@@ -45,15 +45,26 @@ const transfersText = [
 
 const sectionAnimation = {
   hidden: {
-    y: -150,
+    y: 150,
     opacity: 0,
   },
   visible: {
     y: 0,
     opacity: 1,
-    transition: {duration: 0.6}
+    transition: {duration: 0.6},
   },
+  viewPort: {
+    amount: 0.2,
+    once: true
+  }
 };
+
+const sectionAnimationProps = {
+  variants: sectionAnimation,
+  initial: "hidden",
+  whileInView: "visible",
+  viewport: sectionAnimation.viewPort
+}
 
 const sideHeaderAnimation = {
   hidden: custom => ({
@@ -143,9 +154,7 @@ export default function Home() {
       </header>
 
       <motion.section
-        variants={sectionAnimation}
-        initial="hidden"
-        whileInView="visible"
+        {...sectionAnimationProps}
         class="work-container"
       >
         <p class="anchor" id="work"></p>
@@ -163,9 +172,7 @@ export default function Home() {
       </motion.section>
 
       <motion.section
-        variants={sectionAnimation}
-        initial="hidden"
-        whileInView="visible"
+        {...sectionAnimationProps}
         class="functional-container"
       >
         <p class="anchor" id="about-us"></p>
@@ -176,9 +183,7 @@ export default function Home() {
       </motion.section>
 
       <motion.section
-        variants={sectionAnimation}
-        initial="hidden"
-        whileInView="visible"
+        {...sectionAnimationProps}
         id="get-app"
         class="get-app-wrapper"
       >
