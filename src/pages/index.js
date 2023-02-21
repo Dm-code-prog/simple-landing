@@ -8,8 +8,38 @@ import "@/scripts/index";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+import Tilt from "react-parallax-tilt";
+
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import TransferCards from "@/components/TransferCards";
+
+const transfersText = [
+  {
+    header: "Phone number is a User Identity",
+    p: "Automatically create a crypto wallet or add your existing one and link it with your phone number.",
+  },
+  {
+    header: "Transfer to friends directly from messages",
+    p: "Find your friends in the contact list and send crypto simple as a message. View the history of transfers with your friends in a form of a chat.",
+  },
+  {
+    header: "Simple Protocol",
+    p: "Transfer crypto from and to any network. We will cover everything for you.",
+  },
+  {
+    header: "Pay by a debit card in crypto",
+    p: "Issuing a Simple debit card and pay with your cryptocurrencies anywhere",
+  },
+  {
+    header: "Receive payments for self-employed",
+    p: "Accept payments in crypto in any situation you want.",
+  },
+  {
+    header: "Seamless fiat to crypto conversion",
+    p: "Send crypto and receive fiat money just in one transaction.",
+  },
+];
 
 export default function Home() {
   const [number, setNumber] = useState();
@@ -105,41 +135,7 @@ export default function Home() {
         <p class="anchor" id="about-us"></p>
         <h3 class="header">Transfers made simple</h3>
         <div class="functional-item-container">
-          <div class="item">
-            <h4 class="header">Phone number is a User Identity</h4>
-            <p class="text">
-              Automatically create a crypto wallet or add your existing one and link it with your phone
-              number.
-            </p>
-          </div>
-
-          <div class="item">
-            <h4 class="header">Transfer to friends directly from messages</h4>
-            <p class="text">
-              Find your friends in the contact list and send crypto simp1e as a message. View the history of
-              transfers with your friends in a form of a chat.
-            </p>
-          </div>
-
-          <div class="item">
-            <h4 class="header">Simple Protocol</h4>
-            <p class="text">Transfer crypto from and to any network. We will cover everything for you.</p>
-          </div>
-
-          <div class="item">
-            <h4 class="header">Pay by a debit card in crypto</h4>
-            <p class="text">Issuing a Simple debit card and pay with your cryptocurrencies anywhere</p>
-          </div>
-
-          <div class="item">
-            <h4 class="header">Receive payments for self-employed</h4>
-            <p class="text">Accept payments in crypto in any situation you want.</p>
-          </div>
-
-          <div class="item">
-            <h4 class="header">Seamless fiat to crypto conversion</h4>
-            <p class="text">Send crypto and receive fiat money just in one transaction.</p>
-          </div>
+          <TransferCards textArray={transfersText} />
         </div>
       </section>
 
@@ -158,15 +154,13 @@ export default function Home() {
                     your code
                   }
                   */
-                alert("Thank you! We will share the link with you as soon as possible.")
+                  alert("Thank you! We will share the link with you as soon as possible.")
                 }
               >
                 Get link
               </button>
             </form>
-            <button className="mobile-button">
-                Get link
-            </button>
+            <button className="mobile-button">Get link</button>
             <p class="policy">
               By clicking the button, you consent to the processing of personal data in accordance with the
               rules for the
