@@ -55,6 +55,18 @@ const sectionAnimation = {
   },
 };
 
+const sideHeaderAnimation = {
+  hidden: custom => ({
+    x: custom.x, // set -x value to start from left side and x to start from right side
+    opacity: 0,
+  }),
+  visible: custom => ({
+    x: 0,
+    opacity: 1,
+    transition: {duration: 1, delay: custom.delay}
+  }),
+}
+
 export default function Home() {
   const [number, setNumber] = useState();
   console.log(number);
@@ -116,17 +128,17 @@ export default function Home() {
 
         <div class="hero-container">
           <div class="key-visual-container">
-            <h1 class="header">Simple crypto payments by phone number</h1>
+            <motion.h1 variants={sideHeaderAnimation} custom={{x: -550}} initial="hidden" animate="visible" class="header">Simple crypto payments by phone number</motion.h1>
             {/* <form id="contact-container"> */}
             {/* <input class="tel" type="tel" placeholder="Your phone number" /> */}
-            <a target="_blank" rel="noreferrer" href="https://simp1e-demo.netlify.app/" class="button">
+            <motion.a variants={sideHeaderAnimation} custom={{x: -550, delay: 0.5}} initial="hidden" animate="visible" target="_blank" rel="noreferrer" href="https://simp1e-demo.netlify.app/" class="button">
               Try demo
-            </a>
+            </motion.a>
             {/* </form> */}
           </div>
-          <div class="phone-decoration-container">
+          <motion.div variants={sideHeaderAnimation} custom={{x: 550}} initial="hidden" animate="visible" class="phone-decoration-container">
             <Image class="phone-decoration" src={phoneImg} />
-          </div>
+          </motion.div>
         </div>
       </header>
 
