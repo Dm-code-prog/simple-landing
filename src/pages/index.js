@@ -1,20 +1,26 @@
 import Head from "next/head";
 import Image from "next/image";
 import logo from "@/images/simple.svg";
+
 import phoneImg from "@/images/iphone-dimension.png";
-import howItWorksImg from "@/images/iphone-screen.png";
 import footerPhoneImg from "@/images/iphone.png";
+
+import sliderContactImg from "@/images/slider-contact.png"
+import sliderReceivedImg from "@/images/slider-received.png"
+import sliderSumImg from "@/images/slider-sum.png"
+
 import "@/scripts/index";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-import Tilt from "react-parallax-tilt";
-
-import { easeInOut, motion } from "framer-motion";
+import { linear, motion, useAnimationControls } from "framer-motion";
 
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import TransferCards from "@/components/TransferCards";
+import { FileLoader } from "three";
+
+const sliderImages = [sliderContactImg, sliderSumImg, sliderReceivedImg];
 
 const transfersText = [
   {
@@ -51,35 +57,56 @@ const sectionAnimation = {
   visible: {
     y: 0,
     opacity: 1,
-    transition: {duration: 0.6},
+    transition: { duration: 0.6 },
   },
   viewPort: {
     amount: 0.2,
-    once: true
-  }
+    once: true,
+  },
 };
 
 const sectionAnimationProps = {
   variants: sectionAnimation,
   initial: "hidden",
   whileInView: "visible",
-  viewport: sectionAnimation.viewPort
-}
+  viewport: sectionAnimation.viewPort,
+};
 
 const sideHeaderAnimation = {
-  hidden: custom => ({
+  hidden: (custom) => ({
     x: custom.x, // set -x value to start from left side and x to start from right side
     opacity: 0,
   }),
-  visible: custom => ({
+  visible: (custom) => ({
     x: 0,
     opacity: 1,
-    transition: {duration: 1, delay: custom.delay}
+    transition: { duration: 1, delay: custom.delay },
   }),
-}
+};
+
+const howItWorksCardAnimation = {
+  empty: {
+    width: 0,
+    borderRadius: "15px 0px 0px 15px",
+  },
+  filled: {
+    width: "100%",
+    backgroundColor: "#5356D9",
+    transition: { duration: 6, ease: "linear" },
+    borderRadius: "15px"
+  },
+};
 
 export default function Home() {
   const [number, setNumber] = useState();
+  const [sliderActiveIndex, setSliderActiveIndex] = useState();
+
+  const cardControls = {
+    first: useAnimationControls(),
+    second: useAnimationControls(),
+    third: useAnimationControls(),
+  };
+
   console.log(number);
 
   useEffect(() => {
@@ -96,6 +123,20 @@ export default function Home() {
         }
       }
     }
+  }, []);
+
+  useEffect(() => {
+    const animateCards = async () => {
+      setSliderActiveIndex(0)
+      await cardControls.first.start(howItWorksCardAnimation.filled);
+      setSliderActiveIndex(1)
+      await cardControls.second.start(howItWorksCardAnimation.filled);
+      setSliderActiveIndex(2)
+      await cardControls.third.start(howItWorksCardAnimation.filled);
+    }
+
+    animateCards();
+
   }, []);
   return (
     <>
@@ -139,42 +180,83 @@ export default function Home() {
 
         <div class="hero-container">
           <div class="key-visual-container">
-            <motion.h1 variants={sideHeaderAnimation} custom={{x: -550}} initial="hidden" animate="visible" class="header">Simple crypto payments by phone number</motion.h1>
+            <motion.h1
+              variants={sideHeaderAnimation}
+              custom={{ x: -550 }}
+              initial="hidden"
+              animate="visible"
+              class="header"
+            >
+              Simple crypto payments by phone number
+            </motion.h1>
             {/* <form id="contact-container"> */}
             {/* <input class="tel" type="tel" placeholder="Your phone number" /> */}
-            <motion.a variants={sideHeaderAnimation} custom={{x: -550, delay: 0.5}} initial="hidden" animate="visible" target="_blank" rel="noreferrer" href="https://simp1e-demo.netlify.app/" class="button">
+            <motion.a
+              variants={sideHeaderAnimation}
+              custom={{ x: -550, delay: 0.5 }}
+              initial="hidden"
+              animate="visible"
+              target="_blank"
+              rel="noreferrer"
+              href="https://simp1e-demo.netlify.app/"
+              class="button"
+            >
               Try demo
             </motion.a>
             {/* </form> */}
           </div>
-          <motion.div variants={sideHeaderAnimation} custom={{x: 550}} initial="hidden" animate="visible" class="phone-decoration-container">
+          <motion.div
+            variants={sideHeaderAnimation}
+            custom={{ x: 550 }}
+            initial="hidden"
+            animate="visible"
+            class="phone-decoration-container"
+          >
             <Image class="phone-decoration" src={phoneImg} />
           </motion.div>
         </div>
       </header>
 
-      <motion.section
-        {...sectionAnimationProps}
-        class="work-container"
-      >
+      <motion.section {...sectionAnimationProps} class="work-container">
         <p class="anchor" id="work"></p>
         <div class="item-container">
           <h3 class="header">How it works</h3>
-          <div class="top-item-container">
-            <p>Select the contact from the list</p>
-            <p>Select the amount of money</p>
-            <p>Transfer money</p>
+          <div class="cards-container">
+            <div className="card-item">
+              <motion.div
+                variants={howItWorksCardAnimation}
+                initial="empty"
+                animate={cardControls.first}
+                class="background-decorator"
+              ></motion.div>
+              <p className="card-item-text">Select the contact from the list</p>
+            </div>
+            <div className="card-item">
+              <motion.div
+                variants={howItWorksCardAnimation}
+                initial="empty"
+                animate={cardControls.second}
+                class="background-decorator"
+              ></motion.div>
+              <p className="card-item-text">Select the amount of money</p>
+            </div>
+            <div className="card-item">
+              <motion.div
+                variants={howItWorksCardAnimation}
+                initial="empty"
+                animate={cardControls.third}
+                class="background-decorator"
+              ></motion.div>
+              <p className="card-item-text">Transfer money</p>
+            </div>
           </div>
           <div class="image-wrapper">
-            <Image src={howItWorksImg} draggable="false" />
+            <Image src={sliderImages[sliderActiveIndex]} draggable="false"/>
           </div>
         </div>
       </motion.section>
 
-      <motion.section
-        {...sectionAnimationProps}
-        class="functional-container"
-      >
+      <motion.section {...sectionAnimationProps} class="functional-container">
         <p class="anchor" id="about-us"></p>
         <h3 class="header">Transfers made simple</h3>
         <div class="functional-item-container">
@@ -182,11 +264,7 @@ export default function Home() {
         </div>
       </motion.section>
 
-      <motion.section
-        {...sectionAnimationProps}
-        id="get-app"
-        class="get-app-wrapper"
-      >
+      <motion.section {...sectionAnimationProps} id="get-app" class="get-app-wrapper">
         <div class="get-app-container">
           <div class="item-container">
             <h3 class="header">Get the app</h3>

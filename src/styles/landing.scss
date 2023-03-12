@@ -251,7 +251,7 @@ p.anchor {
     background-color: $secondary-background-color;
     backdrop-filter: blur(20px);
 
-    .top-item-container {
+    .cards-container {
       display: flex;
       flex-wrap: wrap;
       gap: 30px;
@@ -262,23 +262,8 @@ p.anchor {
         gap: 20px;
       }
 
-      &> :first-child {
+      .card-item {
         position: relative;
-
-        &::before {
-          content: "";
-          position: absolute;
-          left: 0;
-          top: 0;
-          background-color: $accent-color;
-          border-radius: 15px;
-          mix-blend-mode: overlay;
-          width: 38%;
-          height: 100%;
-        }
-      }
-
-      p {
         text-align: center;
         flex-basis: 360px;
         font-size: 20px;
@@ -286,8 +271,22 @@ p.anchor {
         background: radial-gradient(231.67% 669.56% at 0% 3.35%,
             rgba(255, 255, 255, 0.15) 0%,
             rgba(255, 255, 255, 0) 100%);
-        padding: 18px 0;
         border-radius: 15px;
+        padding: 18px 0;
+
+        .background-decorator {
+          position: absolute;
+          background-color: $accent-color;
+          border-radius: 15px;
+          width: 100%;
+          top: 0;
+          height: 100%;
+        }
+
+        .card-item-text {
+          position: relative;
+          z-index: 2;
+        }
 
         @media screen and (max-width: 800px) {
           padding: 12px 0;
@@ -298,9 +297,10 @@ p.anchor {
     .image-wrapper {
       margin: 0 auto;
       max-width: 560px;
+      text-align: center;
 
       img {
-        width: 100%;
+        width: 50%;
       }
     }
   }
@@ -337,9 +337,12 @@ p.anchor {
     gap: 30px;
 
     .item {
-      -webkit-user-select: none; /* Safari */
-      -ms-user-select: none; /* IE 10 and IE 11 */
-      user-select: none; /* Standard syntax */
+      -webkit-user-select: none;
+      /* Safari */
+      -ms-user-select: none;
+      /* IE 10 and IE 11 */
+      user-select: none;
+      /* Standard syntax */
       height: 100%;
       padding: 25px 30px;
       border-radius: 15px;
