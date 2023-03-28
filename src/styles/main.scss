@@ -15,6 +15,7 @@ html {
 
 body {
   background-color: $background-color;
+  overflow: hidden;
 }
 
 button {
@@ -47,11 +48,6 @@ h6,
 span,
 p {
   color: $element-color;
-}
-
-h1 {
-  font-size: 7vw;
-  line-height: 1.1;
 }
 
 h3 {
