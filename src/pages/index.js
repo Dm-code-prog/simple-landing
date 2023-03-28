@@ -1,7 +1,13 @@
 import Head from "next/head";
 import Image from "next/image";
-import logo from "@/images/simple.svg";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { motion, useAnimationControls } from "framer-motion";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
+import logo from "@/images/simple.svg";
 import phoneImg from "@/images/iphone-dimension.png";
 import footerPhoneImg from "@/images/iphone.png";
 
@@ -10,15 +16,7 @@ import sliderReceivedImg from "@/images/slider-received.png";
 import sliderSumImg from "@/images/slider-sum.png";
 
 import "@/scripts/index";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-
-import { linear, motion, useAnimationControls } from "framer-motion";
-
-import "react-phone-number-input/style.css";
-import PhoneInput from "react-phone-number-input";
 import TransferCards from "@/components/TransferCards";
-import { FileLoader } from "three";
 
 const sliderImages = [sliderContactImg, sliderSumImg, sliderReceivedImg];
 
@@ -98,6 +96,8 @@ const howItWorksCardAnimation = {
 };
 
 export default function Home() {
+  const router = useRouter();
+
   const [number, setNumber] = useState();
   const [sliderActiveIndex, setSliderActiveIndex] = useState();
 
@@ -107,7 +107,25 @@ export default function Home() {
     third: useAnimationControls(),
   };
 
-  console.log(number);
+  const handlePhoneWaitlistSubmit = (type) => (event) => {
+    const myForm =
+      type === "mobile"
+        ? document.getElementById("form-container")
+        : event.target.parentNode;
+    const formData = new FormData(myForm);
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString(),
+    })
+      .then(() =>
+        alert(
+          "Success! We have received your phone number and added you to our waitlist. We will be in touch as soon as the app becomes available."
+        )
+      )
+      .catch((error) => alert(error));
+  };
 
   useEffect(() => {
     if (process.browser) {
@@ -278,30 +296,30 @@ export default function Home() {
             <p class="paragraph">
               Leave your phone number — we will send a link to the app
             </p>
-            <form id="form-container">
+            <form
+              name="phoneWaitlist"
+              method="post"
+              data-netlify="true"
+              id="form-container"
+            >
+              <input type="hidden" name="form-name" value="phoneWaitlist" />
               <PhoneInput
                 className="tel"
                 placeholder="+971 50 060 600"
                 value={number}
                 onChange={setNumber}
+                name="phone"
               />
-              <button
-                class="button"
-                onClick={() =>
-                  /* 
-                  function(number){
-                    your code
-                  }
-                  */
-                  alert(
-                    "Thank you! We will share the link with you as soon as possible."
-                  )
-                }
-              >
+              <button class="button" onClick={handlePhoneWaitlistSubmit("pc")}>
                 Get link
               </button>
             </form>
-            <button className="mobile-button">Get link</button>
+            <button
+              className="mobile-button"
+              onClick={handlePhoneWaitlistSubmit("mobile")}
+            >
+              Get link
+            </button>
             <p class="policy">
               By clicking the button, you consent to the processing of personal
               data in accordance with the rules for the
