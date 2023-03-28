@@ -1,14 +1,132 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { motion, useAnimationControls } from "framer-motion";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+
 import logo from "@/images/simple.svg";
 import phoneImg from "@/images/iphone-dimension.png";
-import howItWorksImg from "@/images/iphone-screen.png";
 import footerPhoneImg from "@/images/iphone.png";
+
+import sliderContactImg from "@/images/slider-contact.png";
+import sliderReceivedImg from "@/images/slider-received.png";
+import sliderSumImg from "@/images/slider-sum.png";
+
 import "@/scripts/index";
-import { useEffect } from "react";
-import Link from "next/link";
+import TransferCards from "@/components/TransferCards";
+
+const sliderImages = [sliderContactImg, sliderSumImg, sliderReceivedImg];
+
+const transfersText = [
+  {
+    header: "Phone number is a User Identity",
+    p: "Automatically create a crypto wallet or add your existing one and link it with your phone number. Of course, you can switch to the username if you want to.",
+  },
+  {
+    header: "Transfer to friends directly from messages",
+    p: "Find your friends in the contact list and send crypto simple as a message. View the history of transfers with your friends in a form of a chat.",
+  },
+  {
+    header: "Simple Protocol",
+    p: "Transfer crypto from and to any network in any asset. We will cover everything for you.",
+  },
+  {
+    header: "Pay by a debit card in crypto",
+    p: "Issuing a Simple debit card and pay with your cryptocurrencies anywhere",
+  },
+  // {
+  //   header: "Receive payments for self-employed",
+  //   p: "Accept payments in crypto in any situation you want.",
+  // },
+  // {
+  //   header: "Seamless fiat to crypto conversion",
+  //   p: "Send crypto and receive fiat money just in one transaction.",
+  // },
+];
+
+const sectionAnimation = {
+  hidden: {
+    y: 150,
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.6 },
+  },
+  viewPort: {
+    amount: 0.2,
+    once: true,
+  },
+};
+
+const sectionAnimationProps = {
+  variants: sectionAnimation,
+  initial: "hidden",
+  whileInView: "visible",
+  viewport: sectionAnimation.viewPort,
+};
+
+const sideHeaderAnimation = {
+  hidden: (custom) => ({
+    x: custom.x, // set -x value to start from left side and x to start from right side
+    opacity: 0,
+  }),
+  visible: (custom) => ({
+    x: 0,
+    opacity: 1,
+    transition: { duration: 1, delay: custom.delay },
+  }),
+};
+
+const howItWorksCardAnimation = {
+  empty: {
+    width: 0,
+    borderRadius: "15px 0px 0px 15px",
+  },
+  filled: {
+    width: "100%",
+    backgroundColor: "#5356D9",
+    transition: { duration: 6, ease: "linear" },
+    borderRadius: "15px",
+  },
+};
 
 export default function Home() {
+  const router = useRouter();
+
+  const [number, setNumber] = useState();
+  const [sliderActiveIndex, setSliderActiveIndex] = useState();
+
+  const cardControls = {
+    first: useAnimationControls(),
+    second: useAnimationControls(),
+    third: useAnimationControls(),
+  };
+
+  const handlePhoneWaitlistSubmit = (type) => (event) => {
+    const myForm =
+      type === "mobile"
+        ? document.getElementById("form-container")
+        : event.target.parentNode;
+    const formData = new FormData(myForm);
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString(),
+    })
+      .then(() =>
+        alert(
+          "Success! We have received your phone number and added you to our waitlist. We will be in touch as soon as the app becomes available."
+        )
+      )
+      .catch((error) => alert(error));
+  };
+
   useEffect(() => {
     if (process.browser) {
       const navbar = document.getElementById("landing-nav");
@@ -23,6 +141,19 @@ export default function Home() {
         }
       }
     }
+  }, []);
+
+  useEffect(() => {
+    const animateCards = async () => {
+      setSliderActiveIndex(0);
+      await cardControls.first.start(howItWorksCardAnimation.filled);
+      setSliderActiveIndex(1);
+      await cardControls.second.start(howItWorksCardAnimation.filled);
+      setSliderActiveIndex(2);
+      await cardControls.third.start(howItWorksCardAnimation.filled);
+    };
+
+    animateCards();
   }, []);
   return (
     <>
@@ -69,113 +200,126 @@ export default function Home() {
 
         <div class="hero-container">
           <div class="key-visual-container">
-            <h1 class="header">Simple crypto payments by phone number</h1>
+            <motion.h1
+              variants={sideHeaderAnimation}
+              custom={{ x: -550 }}
+              initial="hidden"
+              animate="visible"
+              class="header"
+            >
+              One Wallet,
+              <br /> All Crypto
+            </motion.h1>
             {/* <form id="contact-container"> */}
             {/* <input class="tel" type="tel" placeholder="Your phone number" /> */}
-            <a
+            <motion.a
+              variants={sideHeaderAnimation}
+              custom={{ x: -550, delay: 0.5 }}
+              initial="hidden"
+              animate="visible"
               target="_blank"
               rel="noreferrer"
               href="https://simp1e-demo.netlify.app/"
               class="button"
             >
               Try demo
-            </a>
+            </motion.a>
             {/* </form> */}
           </div>
-          <div class="phone-decoration-container">
+          <motion.div
+            variants={sideHeaderAnimation}
+            custom={{ x: 550 }}
+            initial="hidden"
+            animate="visible"
+            class="phone-decoration-container"
+          >
             <Image class="phone-decoration" src={phoneImg} />
-          </div>
+          </motion.div>
         </div>
       </header>
 
-      <section class="work-container">
+      <motion.section {...sectionAnimationProps} class="work-container">
         <p class="anchor" id="work"></p>
         <div class="item-container">
           <h3 class="header">How it works</h3>
-          <div class="top-item-container">
-            <p>Select the contact from the list</p>
-            <p>Select the amount of money</p>
-            <p>Transfer money</p>
+          <div class="cards-container">
+            <div className="card-item">
+              <motion.div
+                variants={howItWorksCardAnimation}
+                initial="empty"
+                animate={cardControls.first}
+                class="background-decorator"
+              ></motion.div>
+              <p className="card-item-text">Select the contact from the list</p>
+            </div>
+            <div className="card-item">
+              <motion.div
+                variants={howItWorksCardAnimation}
+                initial="empty"
+                animate={cardControls.second}
+                class="background-decorator"
+              ></motion.div>
+              <p className="card-item-text">Select the amount for a transfer</p>
+            </div>
+            <div className="card-item">
+              <motion.div
+                variants={howItWorksCardAnimation}
+                initial="empty"
+                animate={cardControls.third}
+                class="background-decorator"
+              ></motion.div>
+              <p className="card-item-text">Transfer assets</p>
+            </div>
           </div>
           <div class="image-wrapper">
-            <Image src={howItWorksImg} draggable="false" />
+            <Image src={sliderImages[sliderActiveIndex]} draggable="false" />
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section class="functional-container">
+      <motion.section {...sectionAnimationProps} class="functional-container">
         <p class="anchor" id="about-us"></p>
         <h3 class="header">Transfers made simple</h3>
         <div class="functional-item-container">
-          <div class="item">
-            <h4 class="header">Phone number is a User Identity</h4>
-            <p class="text">
-              Automatically create a crypto wallet or add your existing one and
-              link it with your phone number.
-            </p>
-          </div>
-
-          <div class="item">
-            <h4 class="header">Transfer to friends directly from messages</h4>
-            <p class="text">
-              Find your friends in the contact list and send crypto simp1e as a
-              message. View the history of transfers with your friends in a form
-              of a chat.
-            </p>
-          </div>
-
-          <div class="item">
-            <h4 class="header">Simple Protocol</h4>
-            <p class="text">
-              Transfer crypto from and to any network. We will cover everything
-              for you.
-            </p>
-          </div>
-
-          <div class="item">
-            <h4 class="header">Pay by a debit card in crypto</h4>
-            <p class="text">
-              Issuing a Simple debit card and pay with your cryptocurrencies
-              anywhere
-            </p>
-          </div>
-
-          <div class="item">
-            <h4 class="header">Receive payments for self-employed</h4>
-            <p class="text">
-              Accept payments in crypto in any situation you want.
-            </p>
-          </div>
-
-          <div class="item">
-            <h4 class="header">Seamless fiat to crypto conversion</h4>
-            <p class="text">
-              Send crypto and receive fiat money just in one transaction.
-            </p>
-          </div>
+          <TransferCards textArray={transfersText} />
         </div>
-      </section>
+      </motion.section>
 
-      <section id="get-app" class="get-app-wrapper">
+      <motion.section
+        {...sectionAnimationProps}
+        id="get-app"
+        class="get-app-wrapper"
+      >
         <div class="get-app-container">
           <div class="item-container">
             <h3 class="header">Get the app</h3>
             <p class="paragraph">
               Leave your phone number — we will send a link to the app
             </p>
-            <form id="form-container">
-              <input class="tel" type="tel" placeholder="+7 000 000 00 00" />
-              <button
-                class="button"
-                onClick={() =>
-                  alert(
-                    "Thank you! We will share the link with you as soon as possible."
-                  )
-                }
-              >
+            <form
+              name="phoneWaitlist"
+              method="post"
+              data-netlify="true"
+              id="form-container"
+            >
+              <input type="hidden" name="form-name" value="phoneWaitlist" />
+              <PhoneInput
+                className="tel"
+                placeholder="+971 50 060 600"
+                value={number}
+                onChange={setNumber}
+                name="phone"
+              />
+              <button class="button" onClick={handlePhoneWaitlistSubmit("pc")}>
                 Get link
               </button>
             </form>
+            <button
+              className="mobile-button"
+              onClick={handlePhoneWaitlistSubmit("mobile")}
+            >
+              Get link
+            </button>
             <p class="policy">
               By clicking the button, you consent to the processing of personal
               data in accordance with the rules for the
@@ -188,7 +332,7 @@ export default function Home() {
             <Image class="decoration-item" src={footerPhoneImg} alt="" />
           </div>
         </div>
-      </section>
+      </motion.section>
       <footer className="footer">
         <p>
           All rights are reserved by SIMPLE PROTOCOL TECHNOLOGIES LLC registered
