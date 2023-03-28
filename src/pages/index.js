@@ -5,9 +5,9 @@ import logo from "@/images/simple.svg";
 import phoneImg from "@/images/iphone-dimension.png";
 import footerPhoneImg from "@/images/iphone.png";
 
-import sliderContactImg from "@/images/slider-contact.png"
-import sliderReceivedImg from "@/images/slider-received.png"
-import sliderSumImg from "@/images/slider-sum.png"
+import sliderContactImg from "@/images/slider-contact.png";
+import sliderReceivedImg from "@/images/slider-received.png";
+import sliderSumImg from "@/images/slider-sum.png";
 
 import "@/scripts/index";
 import { useEffect, useState } from "react";
@@ -25,7 +25,7 @@ const sliderImages = [sliderContactImg, sliderSumImg, sliderReceivedImg];
 const transfersText = [
   {
     header: "Phone number is a User Identity",
-    p: "Automatically create a crypto wallet or add your existing one and link it with your phone number.",
+    p: "Automatically create a crypto wallet or add your existing one and link it with your phone number. Of course, you can switch to the username if you want to.",
   },
   {
     header: "Transfer to friends directly from messages",
@@ -33,20 +33,20 @@ const transfersText = [
   },
   {
     header: "Simple Protocol",
-    p: "Transfer crypto from and to any network. We will cover everything for you.",
+    p: "Transfer crypto from and to any network in any asset. We will cover everything for you.",
   },
   {
     header: "Pay by a debit card in crypto",
     p: "Issuing a Simple debit card and pay with your cryptocurrencies anywhere",
   },
-  {
-    header: "Receive payments for self-employed",
-    p: "Accept payments in crypto in any situation you want.",
-  },
-  {
-    header: "Seamless fiat to crypto conversion",
-    p: "Send crypto and receive fiat money just in one transaction.",
-  },
+  // {
+  //   header: "Receive payments for self-employed",
+  //   p: "Accept payments in crypto in any situation you want.",
+  // },
+  // {
+  //   header: "Seamless fiat to crypto conversion",
+  //   p: "Send crypto and receive fiat money just in one transaction.",
+  // },
 ];
 
 const sectionAnimation = {
@@ -93,7 +93,7 @@ const howItWorksCardAnimation = {
     width: "100%",
     backgroundColor: "#5356D9",
     transition: { duration: 6, ease: "linear" },
-    borderRadius: "15px"
+    borderRadius: "15px",
   },
 };
 
@@ -127,22 +127,24 @@ export default function Home() {
 
   useEffect(() => {
     const animateCards = async () => {
-      setSliderActiveIndex(0)
+      setSliderActiveIndex(0);
       await cardControls.first.start(howItWorksCardAnimation.filled);
-      setSliderActiveIndex(1)
+      setSliderActiveIndex(1);
       await cardControls.second.start(howItWorksCardAnimation.filled);
-      setSliderActiveIndex(2)
+      setSliderActiveIndex(2);
       await cardControls.third.start(howItWorksCardAnimation.filled);
-    }
+    };
 
     animateCards();
-
   }, []);
   return (
     <>
       <Head>
         <title>simple</title>
-        <meta name="description" content="Simple way to transfer money with zero crypto knowledge" />
+        <meta
+          name="description"
+          content="Simple way to transfer money with zero crypto knowledge"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" />
       </Head>
@@ -187,7 +189,8 @@ export default function Home() {
               animate="visible"
               class="header"
             >
-              Simple crypto payments by phone number
+              One Wallet,
+              <br /> All Crypto
             </motion.h1>
             {/* <form id="contact-container"> */}
             {/* <input class="tel" type="tel" placeholder="Your phone number" /> */}
@@ -238,7 +241,7 @@ export default function Home() {
                 animate={cardControls.second}
                 class="background-decorator"
               ></motion.div>
-              <p className="card-item-text">Select the amount of money</p>
+              <p className="card-item-text">Select the amount for a transfer</p>
             </div>
             <div className="card-item">
               <motion.div
@@ -247,11 +250,11 @@ export default function Home() {
                 animate={cardControls.third}
                 class="background-decorator"
               ></motion.div>
-              <p className="card-item-text">Transfer money</p>
+              <p className="card-item-text">Transfer assets</p>
             </div>
           </div>
           <div class="image-wrapper">
-            <Image src={sliderImages[sliderActiveIndex]} draggable="false"/>
+            <Image src={sliderImages[sliderActiveIndex]} draggable="false" />
           </div>
         </div>
       </motion.section>
@@ -264,13 +267,24 @@ export default function Home() {
         </div>
       </motion.section>
 
-      <motion.section {...sectionAnimationProps} id="get-app" class="get-app-wrapper">
+      <motion.section
+        {...sectionAnimationProps}
+        id="get-app"
+        class="get-app-wrapper"
+      >
         <div class="get-app-container">
           <div class="item-container">
             <h3 class="header">Get the app</h3>
-            <p class="paragraph">Leave your phone number — we will send a link to the app</p>
+            <p class="paragraph">
+              Leave your phone number — we will send a link to the app
+            </p>
             <form id="form-container">
-              <PhoneInput className="tel" placeholder="+971 50 060 600" value={number} onChange={setNumber} />
+              <PhoneInput
+                className="tel"
+                placeholder="+971 50 060 600"
+                value={number}
+                onChange={setNumber}
+              />
               <button
                 class="button"
                 onClick={() =>
@@ -279,7 +293,9 @@ export default function Home() {
                     your code
                   }
                   */
-                  alert("Thank you! We will share the link with you as soon as possible.")
+                  alert(
+                    "Thank you! We will share the link with you as soon as possible."
+                  )
                 }
               >
                 Get link
@@ -287,8 +303,8 @@ export default function Home() {
             </form>
             <button className="mobile-button">Get link</button>
             <p class="policy">
-              By clicking the button, you consent to the processing of personal data in accordance with the
-              rules for the
+              By clicking the button, you consent to the processing of personal
+              data in accordance with the rules for the
               <Link target="_blank" href="/privacy-policy">
                 <b>&nbsp;the privacy policy.</b>
               </Link>
@@ -301,8 +317,8 @@ export default function Home() {
       </motion.section>
       <footer className="footer">
         <p>
-          All rights are reserved by SIMPLE PROTOCOL TECHNOLOGIES LLC registered in SCHON BUSINESS PARK,
-          DIP-1, Dubai, UAE, 346-019
+          All rights are reserved by SIMPLE PROTOCOL TECHNOLOGIES LLC registered
+          in SCHON BUSINESS PARK, DIP-1, Dubai, UAE, 346-019
         </p>
       </footer>
       {/* <main className={styles.main}>
