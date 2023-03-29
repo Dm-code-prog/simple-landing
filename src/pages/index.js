@@ -161,7 +161,7 @@ export default function Home() {
         <title>simple</title>
         <meta
           name="description"
-          content="Simple way to transfer money with zero crypto knowledge"
+          content="Simple way to transfer assets with zero crypto knowledge"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" />
