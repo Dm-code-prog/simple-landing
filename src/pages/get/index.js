@@ -48,31 +48,28 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" />
       </Head>
-{/*         <Image fill alt="metal-bg" src={bgMetal} /> */}
+      <Image
+        style={{ objectFit: "cover", filter: "brightness(0.6)" }}
+        fill
+        placeholder="blur"
+        alt="metal-bg"
+        src={bgMetal}
+      />
       <div className={styles.bgImgContainer}>
+        <main className={styles.getTxPage}>
+          <h1 className={styles.receivedHeader}>
+            ${MOCK_TX.amount - MOCK_TX.fee}
+          </h1>
 
+          <span className={styles.senderNumber}>
+            from {MOCK_TX.sender_phone}
+          </span>
 
+          <h6 className={styles.commentLabel}>comment:</h6>
+          <span className={styles.commentData}>{MOCK_TX.comment}</span>
 
-      <main className={styles.getTxPage}>
-        <h1 className={styles.receivedHeader}>
-        ${MOCK_TX.amount - MOCK_TX.fee}
-        </h1>
-
-        <span className={styles.senderNumber}>
-          from {MOCK_TX.sender_phone}
-        </span>
-
-        <h6 className={styles.commentLabel}>
-          comment:
-        </h6>
-        <span className={styles.commentData}>
-          {MOCK_TX.comment}
-        </span>
-
-        <button className={styles.receiveButton}>
-          Receive the funds
-        </button>
-      </main>
+          <button className={styles.receiveButton}>Receive the funds</button>
+        </main>
       </div>
     </>
   );
