@@ -1,0 +1,68 @@
+.bgImgContainer {
+  height: 100vh;
+  width: 100vw;
+  background-image: url("../../images/bg-metal.png");
+  background-position: center;
+  background-size: cover;
+}
+
+.getTxPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.receivedHeader {
+  font-size: 130px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  transition: all ease-in-out 0.2s;
+}
+
+.senderNumber {
+  color: #9ca3af;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 105px;
+}
+
+.commentLabel {
+  color: #9ca3af;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.commentData {
+  color: white;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 125px;
+  text-align: center;
+}
+
+.receiveButton {
+  max-width: 250px;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 15px 50px;
+  color: white;
+  background-color: #6c70ff;
+  border-radius: 46px;
+  word-wrap: unset;
+  transition: all ease-in-out 0.15s;
+}
+
+.receiveButton:hover {
+  background-color: #3f46ff;
+}
+
+@media (max-width: 415px) {
+  .receivedHeader {
+    font-size: 25vw;
+  }
+}
