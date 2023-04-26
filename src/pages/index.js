@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useAnimationControls } from "framer-motion";
 import "react-phone-number-input/style.css";
@@ -17,6 +17,9 @@ import sliderSumImg from "@/images/slider-sum.png";
 
 import "@/scripts/index";
 import TransferCards from "@/components/TransferCards";
+import Model from "@/components/3D/Scene";
+import { OrbitControls, View } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
 
 const sliderImages = [sliderContactImg, sliderSumImg, sliderReceivedImg];
 
@@ -95,6 +98,8 @@ const howItWorksCardAnimation = {
   },
 };
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 export default function Home() {
   const router = useRouter();
 
@@ -146,15 +151,39 @@ export default function Home() {
   useEffect(() => {
     const animateCards = async () => {
       setSliderActiveIndex(0);
-      await cardControls.first.start(howItWorksCardAnimation.filled);
+      await sleep(7000);
+      // await cardControls.first.start(howItWorksCardAnimation.filled);
       setSliderActiveIndex(1);
-      await cardControls.second.start(howItWorksCardAnimation.filled);
+      await sleep(7000);
+      // await cardControls.second.start(howItWorksCardAnimation.filled);
       setSliderActiveIndex(2);
-      await cardControls.third.start(howItWorksCardAnimation.filled);
+      // await cardControls.third.start(howItWorksCardAnimation.filled);
     };
 
     animateCards();
   }, []);
+
+  useEffect(() => {
+    switch (sliderActiveIndex) {
+      case 0:
+        cardControls.first.start(howItWorksCardAnimation.filled);
+        cardControls.second.stop();
+        cardControls.third.stop();
+        break;
+      case 1:
+        cardControls.second.start(howItWorksCardAnimation.filled);
+        cardControls.first.stop();
+        cardControls.third.stop();
+        break;
+      case 2:
+        cardControls.third.start(howItWorksCardAnimation.filled);
+        cardControls.first.stop();
+        cardControls.second.stop();
+        break;
+      default:
+        break;
+    }
+  }, [sliderActiveIndex]);
   return (
     <>
       <Head>
@@ -233,6 +262,15 @@ export default function Home() {
             animate="visible"
             class="phone-decoration-container"
           >
+            {/* <Suspense fallback={"loading"}>
+              <Canvas camera={{ position: [1, 1, 1] }}>
+                <OrbitControls>
+                  <Model />
+                </OrbitControls>
+                <color attach="background" args={["hotpink"]} />
+              </Canvas>
+            </Suspense> */}
+
             <Image class="phone-decoration" src={phoneImg} />
           </motion.div>
         </div>
@@ -243,7 +281,7 @@ export default function Home() {
         <div class="item-container">
           <h3 class="header">How it works</h3>
           <div class="cards-container">
-            <div className="card-item">
+            <div className="card-item" onClick={() => setSliderActiveIndex(0)}>
               <motion.div
                 variants={howItWorksCardAnimation}
                 initial="empty"
@@ -252,7 +290,7 @@ export default function Home() {
               ></motion.div>
               <p className="card-item-text">Select the contact from the list</p>
             </div>
-            <div className="card-item">
+            <div className="card-item" onClick={() => setSliderActiveIndex(1)}>
               <motion.div
                 variants={howItWorksCardAnimation}
                 initial="empty"
@@ -261,7 +299,7 @@ export default function Home() {
               ></motion.div>
               <p className="card-item-text">Select the amount for a transfer</p>
             </div>
-            <div className="card-item">
+            <div className="card-item" onClick={() => setSliderActiveIndex(2)}>
               <motion.div
                 variants={howItWorksCardAnimation}
                 initial="empty"
