@@ -211,7 +211,7 @@ export default function Home() {
             <Link
               class="nav-item nav-item-button nav-item-mobile-only"
               target="_blank"
-              href="https://simp1e-demo.netlify.app/"
+              href="https://app.sympl.money/?ref=landing"
             >
               Web Demo
             </Link>
@@ -220,7 +220,7 @@ export default function Home() {
             <Link
               class="nav-item nav-item-button nav-item-pc-only"
               target="_blank"
-              href="https://simp1e-demo.netlify.app/"
+              href="https://app.sympl.money/?ref=landing"
             >
               Web Demo
             </Link>
@@ -248,7 +248,7 @@ export default function Home() {
               animate="visible"
               target="_blank"
               rel="noreferrer"
-              href="https://simp1e-demo.netlify.app/"
+              href="https://app.sympl.money/"
               class="button"
             >
               Try demo
