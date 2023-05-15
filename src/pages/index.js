@@ -236,8 +236,8 @@ export default function Home() {
               animate="visible"
               class="header"
             >
-              One Wallet,
-              <br /> All Crypto
+              Crypto Payments
+              <br /> for people
             </motion.h1>
             {/* <form id="contact-container"> */}
             {/* <input class="tel" type="tel" placeholder="Your phone number" /> */}
@@ -306,7 +306,7 @@ export default function Home() {
                 animate={cardControls.third}
                 class="background-decorator"
               ></motion.div>
-              <p className="card-item-text">Transfer assets</p>
+              <p className="card-item-text">Make the transfer</p>
             </div>
           </div>
           <div class="image-wrapper">
