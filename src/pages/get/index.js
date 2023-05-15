@@ -59,11 +59,11 @@ export default function Home() {
           <h1 className={styles.receivedHeader}>${MOCK_TX.amount - MOCK_TX.fee}</h1>
 
           <span className={styles.senderNumber}>
-            from {["░░░░░░", MOCK_TX.sender_phone]}
+            from  <span className={styles.hiddenData}>+123456</span>{MOCK_TX.sender_phone}
           </span>
 
           <h6 className={styles.commentLabel}>comment:</h6>
-          <span className={styles.commentData}>░░░░░░░░░</span>
+          <span className={styles.commentData}>App sympl money</span>
 
           <button className={styles.receiveButton}>Receive the funds</button>
         </main>
