@@ -56,14 +56,17 @@ export default function Home() {
       />
       <div className={styles.bgImgContainer}>
         <main className={styles.getTxPage}>
-          <h1 className={styles.receivedHeader}>${MOCK_TX.amount - MOCK_TX.fee}</h1>
+          <h1 className={styles.receivedHeader}>
+            ${MOCK_TX.amount - MOCK_TX.fee}
+          </h1>
 
           <span className={styles.senderNumber}>
-            from  <span className={styles.hiddenData}>+xxxxxxx</span>{MOCK_TX.sender_phone}
+            from <span className={styles.hiddenData}>+1 484-300</span>-
+            {MOCK_TX.sender_phone}
           </span>
 
           <h6 className={styles.commentLabel}>comment:</h6>
-          <span className={styles.commentData}>App sympl money</span>
+          <span className={styles.commentData}>are you seriously</span>
 
           <button className={styles.receiveButton}>Receive the funds</button>
         </main>
