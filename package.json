@@ -13,6 +13,7 @@
     "@react-three/drei": "^9.65.5",
     "@react-three/fiber": "^8.12.2",
     "@types/three": "^0.149.0",
+    "actionsheet-react": "^1.0.14",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
     "framer-motion": "^9.0.6",
