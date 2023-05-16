@@ -61,7 +61,8 @@ export default function Home() {
           </h1>
 
           <span className={styles.senderNumber}>
-            from <span className={styles.hiddenData}>+1 484-300</span>-
+            from <span className={styles.hiddenData}>+1 484-300</span>
+            {"  "}
             {MOCK_TX.sender_phone}
           </span>
 
