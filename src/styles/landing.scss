@@ -247,8 +247,7 @@ p.anchor {
   .item-container {
     position: relative;
     border-radius: 40px;
-    padding: 0 50px;
-    padding-top: 35px;
+    padding: 35px 50px;
     background-color: $secondary-background-color;
     backdrop-filter: blur(20px);
 
@@ -276,6 +275,7 @@ p.anchor {
         );
         border-radius: 15px;
         padding: 18px 0;
+        cursor: pointer;
 
         .background-decorator {
           position: absolute;

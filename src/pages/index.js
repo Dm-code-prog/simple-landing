@@ -96,6 +96,25 @@ const howItWorksCardAnimation = {
     transition: { duration: 6, ease: "linear" },
     borderRadius: "15px",
   },
+  filledInstant: {
+    width: "100%",
+    backgroundColor: "#5356D9",
+    transition: { duration: 1, ease: "linear" },
+    borderRadius: "15px",
+  },
+};
+
+const cardImageAnimation = {
+  hidden: {
+    opacity: 0,
+    display: "none",
+  },
+
+  visible: {
+    opacity: 1,
+    display: "block",
+    transition: { duration: 2 },
+  },
 };
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -107,6 +126,12 @@ export default function Home() {
   const [sliderActiveIndex, setSliderActiveIndex] = useState();
 
   const cardControls = {
+    first: useAnimationControls(),
+    second: useAnimationControls(),
+    third: useAnimationControls(),
+  };
+
+  const imageControls = {
     first: useAnimationControls(),
     second: useAnimationControls(),
     third: useAnimationControls(),
@@ -149,40 +174,63 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const animateCards = async () => {
+    const animation = async () => {
       setSliderActiveIndex(0);
-      await sleep(7000);
-      // await cardControls.first.start(howItWorksCardAnimation.filled);
-      setSliderActiveIndex(1);
-      await sleep(7000);
-      // await cardControls.second.start(howItWorksCardAnimation.filled);
-      setSliderActiveIndex(2);
-      // await cardControls.third.start(howItWorksCardAnimation.filled);
-    };
+      await cardControls.first.start("filled");
 
-    animateCards();
+      setSliderActiveIndex(1);
+      await cardControls.second.start("filled");
+
+      setSliderActiveIndex(2);
+      await cardControls.third.start("filled");
+    };
+    animation();
   }, []);
 
   useEffect(() => {
-    switch (sliderActiveIndex) {
-      case 0:
-        cardControls.first.start(howItWorksCardAnimation.filled);
-        cardControls.second.stop();
-        cardControls.third.stop();
-        break;
-      case 1:
-        cardControls.second.start(howItWorksCardAnimation.filled);
-        cardControls.first.stop();
-        cardControls.third.stop();
-        break;
-      case 2:
-        cardControls.third.start(howItWorksCardAnimation.filled);
-        cardControls.first.stop();
-        cardControls.second.stop();
-        break;
-      default:
-        break;
-    }
+    const animation = async () => {
+      switch (sliderActiveIndex) {
+        case 0:
+          imageControls.second.set("hidden");
+          imageControls.third.set("hidden");
+          imageControls.first.start("visible");
+
+          cardControls.third.start("empty");
+          cardControls.second.start("empty");
+          await cardControls.first.start("empty");
+          cardControls.first.start("filled").then(() => {
+            setSliderActiveIndex(1);
+          });
+          break;
+
+        case 1:
+          imageControls.first.set("hidden");
+          imageControls.third.set("hidden");
+          imageControls.second.start("visible");
+
+          cardControls.first.start("filledInstant");
+          cardControls.third.start("empty");
+          imageControls.second.start("visible");
+          await cardControls.second.start("empty");
+          cardControls.second.start("filled").then(() => {
+            setSliderActiveIndex(2);
+          });
+          break;
+
+        case 2:
+          imageControls.second.set("hidden");
+          imageControls.first.set("hidden");
+          imageControls.third.start("visible");
+
+          cardControls.first.start("filledInstant");
+          cardControls.second.start("filledInstant");
+          cardControls.third.start("filled");
+          break;
+        default:
+          break;
+      }
+    };
+    animation();
   }, [sliderActiveIndex]);
   return (
     <>
@@ -270,8 +318,13 @@ export default function Home() {
                 <color attach="background" args={["hotpink"]} />
               </Canvas>
             </Suspense> */}
-
-            <Image class="phone-decoration" src={phoneImg} />
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <Image key={phoneImg} class="phone-decoration" src={phoneImg} />
+            </motion.div>
           </motion.div>
         </div>
       </header>
@@ -310,7 +363,27 @@ export default function Home() {
             </div>
           </div>
           <div class="image-wrapper">
-            <Image src={sliderImages[sliderActiveIndex]} draggable="false" />
+            <motion.div
+              variants={cardImageAnimation}
+              initial="hidden"
+              animate={imageControls.first}
+            >
+              <Image priority={true} src={sliderImages[0]} draggable="false" />
+            </motion.div>
+            <motion.div
+              variants={cardImageAnimation}
+              initial="hidden"
+              animate={imageControls.second}
+            >
+              <Image priority={true} src={sliderImages[1]} draggable="false" />
+            </motion.div>
+            <motion.div
+              variants={cardImageAnimation}
+              initial="hidden"
+              animate={imageControls.third}
+            >
+              <Image priority={true} src={sliderImages[2]} draggable="false" />
+            </motion.div>
           </div>
         </div>
       </motion.section>
@@ -359,8 +432,8 @@ export default function Home() {
               Get link
             </button>
             <p class="policy">
-              By clicking the button, you consent to the processing of personal
-              data in accordance with the rules for the
+              By clicking the button, you consent to the processing of personal data
+              in accordance with the rules for the
               <Link target="_blank" href="/privacy-policy">
                 <b>&nbsp;the privacy policy.</b>
               </Link>
@@ -373,8 +446,8 @@ export default function Home() {
       </motion.section>
       <footer className="footer">
         <p>
-          All rights are reserved by SIMPLE PROTOCOL TECHNOLOGIES LLC registered
-          in SCHON BUSINESS PARK, DIP-1, Dubai, UAE, 346-019
+          All rights are reserved by SIMPLE PROTOCOL TECHNOLOGIES LLC registered in
+          SCHON BUSINESS PARK, DIP-1, Dubai, UAE, 346-019
         </p>
       </footer>
       {/* <main className={styles.main}>
