@@ -1,12 +1,14 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 
 import "@/scripts/index";
 import bgMetal from "@/images/bg-metal.png";
 import styles from "./get-tx.module.css";
+import { Modal } from "@/components/Modal";
+import { Button } from "@/components/Button";
 
 const MOCK_TX = {
   id: "1c381b5b-0488-4680-a92d-53f7f5f29474",
@@ -15,10 +17,22 @@ const MOCK_TX = {
   fee: 0.1,
 };
 
+const modalContent = {
+  header: "To receive and store funds, you need a Simple wallet",
+  description:
+    "Assets are stored securely and can only be accessed via your device.",
+};
+
 export default function Home() {
   const {
     query: { tx },
   } = useRouter();
+
+  const ref = useRef();
+
+  const openModal = () => {
+    ref.current.open();
+  };
 
   // useEffect(() => {
   //   if (process.browser) {
@@ -61,15 +75,35 @@ export default function Home() {
           </h1>
 
           <span className={styles.senderNumber}>
-            from <span className={styles.hiddenData}>+1 484-300</span>
+            from{" "}
+            <span onClick={openModal} className={styles.hiddenData}>
+              +1 484-300
+            </span>
             {"  "}
             {MOCK_TX.sender_phone}
           </span>
 
           <h6 className={styles.commentLabel}>comment:</h6>
-          <span className={styles.commentData}>are you seriously</span>
+          <span onClick={openModal} className={styles.commentData}>
+            are you seriously
+          </span>
 
-          <button className={styles.receiveButton}>Receive the funds</button>
+          <button className={styles.receiveButton} onClick={openModal}>
+            Receive the funds
+          </button>
+          <Modal
+            closeAllowed={false}
+            actionSheetRef={ref}
+            headerContent={modalContent.header}
+            descriptionContent={modalContent.description}
+            buttonsJSX={
+              <>
+                <Button variant={"primary"}>Go to App Store</Button>
+                <Button variant={"primary-black"}>Telegram Bot</Button>
+                <Button variant={"ghost"}>Use Web version</Button>
+              </>
+            }
+          />
         </main>
       </div>
     </>

@@ -17,6 +17,7 @@ import sliderSumImg from "@/images/slider-sum.png";
 
 import "@/scripts/index";
 import TransferCards from "@/components/TransferCards";
+import { Layout } from "@/components/Layout";
 // import Model from "@/components/3D/Scene";
 // import { OrbitControls, View } from "@react-three/drei";
 // import { Canvas } from "@react-three/fiber";
@@ -96,6 +97,25 @@ const howItWorksCardAnimation = {
     transition: { duration: 6, ease: "linear" },
     borderRadius: "15px",
   },
+  filledInstant: {
+    width: "100%",
+    backgroundColor: "#5356D9",
+    transition: { duration: 1, ease: "linear" },
+    borderRadius: "15px",
+  },
+};
+
+const cardImageAnimation = {
+  hidden: {
+    opacity: 0,
+    display: "none",
+  },
+
+  visible: {
+    opacity: 1,
+    display: "block",
+    transition: { duration: 2 },
+  },
 };
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -107,6 +127,12 @@ export default function Home() {
   const [sliderActiveIndex, setSliderActiveIndex] = useState();
 
   const cardControls = {
+    first: useAnimationControls(),
+    second: useAnimationControls(),
+    third: useAnimationControls(),
+  };
+
+  const imageControls = {
     first: useAnimationControls(),
     second: useAnimationControls(),
     third: useAnimationControls(),
@@ -149,40 +175,63 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const animateCards = async () => {
+    const animation = async () => {
       setSliderActiveIndex(0);
-      await sleep(7000);
-      // await cardControls.first.start(howItWorksCardAnimation.filled);
-      setSliderActiveIndex(1);
-      await sleep(7000);
-      // await cardControls.second.start(howItWorksCardAnimation.filled);
-      setSliderActiveIndex(2);
-      // await cardControls.third.start(howItWorksCardAnimation.filled);
-    };
+      await cardControls.first.start("filled");
 
-    animateCards();
+      setSliderActiveIndex(1);
+      await cardControls.second.start("filled");
+
+      setSliderActiveIndex(2);
+      await cardControls.third.start("filled");
+    };
+    animation();
   }, []);
 
   useEffect(() => {
-    switch (sliderActiveIndex) {
-      case 0:
-        cardControls.first.start(howItWorksCardAnimation.filled);
-        cardControls.second.stop();
-        cardControls.third.stop();
-        break;
-      case 1:
-        cardControls.second.start(howItWorksCardAnimation.filled);
-        cardControls.first.stop();
-        cardControls.third.stop();
-        break;
-      case 2:
-        cardControls.third.start(howItWorksCardAnimation.filled);
-        cardControls.first.stop();
-        cardControls.second.stop();
-        break;
-      default:
-        break;
-    }
+    const animation = async () => {
+      switch (sliderActiveIndex) {
+        case 0:
+          imageControls.second.set("hidden");
+          imageControls.third.set("hidden");
+          imageControls.first.start("visible");
+
+          cardControls.third.start("empty");
+          cardControls.second.start("empty");
+          await cardControls.first.start("empty");
+          cardControls.first.start("filled").then(() => {
+            setSliderActiveIndex(1);
+          });
+          break;
+
+        case 1:
+          imageControls.first.set("hidden");
+          imageControls.third.set("hidden");
+          imageControls.second.start("visible");
+
+          cardControls.first.start("filledInstant");
+          cardControls.third.start("empty");
+          await cardControls.second.start("empty");
+          cardControls.second.start("filled").then(() => {
+            setSliderActiveIndex(2);
+          });
+          break;
+
+        case 2:
+          imageControls.second.set("hidden");
+          imageControls.first.set("hidden");
+          imageControls.third.start("visible");
+
+          cardControls.first.start("filledInstant");
+          cardControls.second.start("filledInstant");
+          cardControls.third.start("filled");
+          break;
+
+        default:
+          break;
+      }
+    };
+    animation();
   }, [sliderActiveIndex]);
   return (
     <>
@@ -195,74 +244,44 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" />
       </Head>
-      <header class="landing-header-container">
-        <nav id="landing-nav" class="nav-container">
-          <div class="logo-container">
-            <Image class="logo-img" src={logo} />
-            <span class="logo-text">simple</span>
-          </div>
-          <div class="nav-wrapper">
-            <a class="nav-item" href="#work">
-              How it works
-            </a>
-            <a class="nav-item" href="#about-us">
-              About Us
-            </a>
-            <Link
-              class="nav-item nav-item-button nav-item-mobile-only"
-              target="_blank"
-              href="https://app.sympl.money/?ref=landing"
-            >
-              Web Demo
-            </Link>
-          </div>
-          <div class="decorate-item">
-            <Link
-              class="nav-item nav-item-button nav-item-pc-only"
-              target="_blank"
-              href="https://app.sympl.money/?ref=landing"
-            >
-              Web Demo
-            </Link>
-          </div>
-        </nav>
+      <Layout>
 
-        <div class="hero-container">
-          <div class="key-visual-container">
-            <motion.h1
+          <section class="hero-container">
+            <div class="key-visual-container">
+              <motion.h1
+                variants={sideHeaderAnimation}
+                custom={{ x: -550 }}
+                initial="hidden"
+                animate="visible"
+                class="header"
+              >
+                Crypto Payments
+                <br /> for people
+              </motion.h1>
+              {/* <form id="contact-container"> */}
+              {/* <input class="tel" type="tel" placeholder="Your phone number" /> */}
+              <motion.a
+                variants={sideHeaderAnimation}
+                custom={{ x: -550, delay: 0.5 }}
+                initial="hidden"
+                animate="visible"
+                target="_blank"
+                rel="noreferrer"
+                href="https://app.sympl.money/"
+                class="button"
+              >
+                Try demo
+              </motion.a>
+              {/* </form> */}
+            </div>
+            <motion.div
               variants={sideHeaderAnimation}
-              custom={{ x: -550 }}
+              custom={{ x: 550 }}
               initial="hidden"
               animate="visible"
-              class="header"
+              class="phone-decoration-container"
             >
-              Crypto Payments
-              <br /> for people
-            </motion.h1>
-            {/* <form id="contact-container"> */}
-            {/* <input class="tel" type="tel" placeholder="Your phone number" /> */}
-            <motion.a
-              variants={sideHeaderAnimation}
-              custom={{ x: -550, delay: 0.5 }}
-              initial="hidden"
-              animate="visible"
-              target="_blank"
-              rel="noreferrer"
-              href="https://app.sympl.money/"
-              class="button"
-            >
-              Try demo
-            </motion.a>
-            {/* </form> */}
-          </div>
-          <motion.div
-            variants={sideHeaderAnimation}
-            custom={{ x: 550 }}
-            initial="hidden"
-            animate="visible"
-            class="phone-decoration-container"
-          >
-            {/* <Suspense fallback={"loading"}>
+              {/* <Suspense fallback={"loading"}>
               <Canvas camera={{ position: [1, 1, 1] }}>
                 <OrbitControls>
                   <Model />
@@ -270,19 +289,8 @@ export default function Home() {
                 <color attach="background" args={["hotpink"]} />
               </Canvas>
             </Suspense> */}
-
-            <Image class="phone-decoration" src={phoneImg} />
-          </motion.div>
-        </div>
-      </header>
-
-      <motion.section {...sectionAnimationProps} class="work-container">
-        <p class="anchor" id="work"></p>
-        <div class="item-container">
-          <h3 class="header">How it works</h3>
-          <div class="cards-container">
-            <div className="card-item" onClick={() => setSliderActiveIndex(0)}>
               <motion.div
+<<<<<<< HEAD
                 variants={howItWorksCardAnimation}
                 initial="empty"
                 animate={cardControls.first}
@@ -314,69 +322,133 @@ export default function Home() {
           </div>
         </div>
       </motion.section>
+=======
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <Image key={phoneImg} class="phone-decoration" src={phoneImg} />
+              </motion.div>
+            </motion.div>
+          </section>
+>>>>>>> feature/cards-animation
 
-      <motion.section {...sectionAnimationProps} class="functional-container">
-        <p class="anchor" id="about-us"></p>
-        <h3 class="header">Transfers made simple</h3>
-        <div class="functional-item-container">
-          <TransferCards textArray={transfersText} />
-        </div>
-      </motion.section>
-
-      <motion.section
-        {...sectionAnimationProps}
-        id="get-app"
-        class="get-app-wrapper"
-      >
-        <div class="get-app-container">
+        <motion.section {...sectionAnimationProps} class="work-container">
+          <p class="anchor" id="work"></p>
           <div class="item-container">
-            <h3 class="header">Get the app</h3>
-            <p class="paragraph">
-              Leave your phone number — we will send a link to the app
-            </p>
-            <form
-              name="phoneWaitlist"
-              method="post"
-              data-netlify="true"
-              id="form-container"
-            >
-              <input type="hidden" name="form-name" value="phoneWaitlist" />
-              <PhoneInput
-                className="tel"
-                placeholder="+971 50 060 600"
-                value={number}
-                onChange={setNumber}
-                name="phone"
-              />
-              <button class="button" onClick={handlePhoneWaitlistSubmit("pc")}>
+            <h3 class="header">How it works</h3>
+            <div class="cards-container">
+              <div className="card-item" onClick={() => setSliderActiveIndex(0)}>
+                <motion.div
+                  variants={howItWorksCardAnimation}
+                  initial="empty"
+                  animate={cardControls.first}
+                  class="background-decorator"
+                ></motion.div>
+                <p className="card-item-text">Select the contact from the list</p>
+              </div>
+              <div className="card-item" onClick={() => setSliderActiveIndex(1)}>
+                <motion.div
+                  variants={howItWorksCardAnimation}
+                  initial="empty"
+                  animate={cardControls.second}
+                  class="background-decorator"
+                ></motion.div>
+                <p className="card-item-text">Select the amount for a transfer</p>
+              </div>
+              <div className="card-item" onClick={() => setSliderActiveIndex(2)}>
+                <motion.div
+                  variants={howItWorksCardAnimation}
+                  initial="empty"
+                  animate={cardControls.third}
+                  class="background-decorator"
+                ></motion.div>
+                <p className="card-item-text">Transfer assets</p>
+              </div>
+            </div>
+            <div class="image-wrapper">
+              <motion.div
+                variants={cardImageAnimation}
+                initial="hidden"
+                animate={imageControls.first}
+              >
+                <Image priority={true} src={sliderImages[0]} draggable="false" />
+              </motion.div>
+              <motion.div
+                variants={cardImageAnimation}
+                initial="hidden"
+                animate={imageControls.second}
+              >
+                <Image priority={true} src={sliderImages[1]} draggable="false" />
+              </motion.div>
+              <motion.div
+                variants={cardImageAnimation}
+                initial="hidden"
+                animate={imageControls.third}
+              >
+                <Image priority={true} src={sliderImages[2]} draggable="false" />
+              </motion.div>
+            </div>
+          </div>
+        </motion.section>
+
+        <motion.section {...sectionAnimationProps} class="functional-container">
+          <p class="anchor" id="about-us"></p>
+          <h3 class="header">Transfers made simple</h3>
+          <div class="functional-item-container">
+            <TransferCards textArray={transfersText} />
+          </div>
+        </motion.section>
+
+        <motion.section
+          {...sectionAnimationProps}
+          id="get-app"
+          class="get-app-wrapper"
+        >
+          <div class="get-app-container">
+            <div class="item-container">
+              <h3 class="header">Get the app</h3>
+              <p class="paragraph">
+                Leave your phone number — we will send a link to the app
+              </p>
+              <form
+                name="phoneWaitlist"
+                method="post"
+                data-netlify="true"
+                id="form-container"
+              >
+                <input type="hidden" name="form-name" value="phoneWaitlist" />
+                <PhoneInput
+                  className="tel"
+                  placeholder="+971 50 060 600"
+                  value={number}
+                  onChange={setNumber}
+                  name="phone"
+                />
+                <button class="button" onClick={handlePhoneWaitlistSubmit("pc")}>
+                  Get link
+                </button>
+              </form>
+              <button
+                className="mobile-button"
+                onClick={handlePhoneWaitlistSubmit("mobile")}
+              >
                 Get link
               </button>
-            </form>
-            <button
-              className="mobile-button"
-              onClick={handlePhoneWaitlistSubmit("mobile")}
-            >
-              Get link
-            </button>
-            <p class="policy">
-              By clicking the button, you consent to the processing of personal
-              data in accordance with the rules for the
-              <Link target="_blank" href="/privacy-policy">
-                <b>&nbsp;the privacy policy.</b>
-              </Link>
-            </p>
+              <p class="policy">
+                By clicking the button, you consent to the processing of personal
+                data in accordance with the rules for the
+                <Link target="_blank" href="/privacy-policy">
+                  <b>&nbsp;the privacy policy.</b>
+                </Link>
+              </p>
+            </div>
+            <div class="decoration-container">
+              <Image class="decoration-item" src={footerPhoneImg} alt="" />
+            </div>
           </div>
-          <div class="decoration-container">
-            <Image class="decoration-item" src={footerPhoneImg} alt="" />
-          </div>
-        </div>
-      </motion.section>
-      <footer className="footer">
-        <p>
-          All rights are reserved by SIMPLE PROTOCOL TECHNOLOGIES LLC registered
-          in SCHON BUSINESS PARK, DIP-1, Dubai, UAE, 346-019
-        </p>
-      </footer>
+        </motion.section>
+      </Layout>
       {/* <main className={styles.main}>
         <div className={styles.description}>
           <p>

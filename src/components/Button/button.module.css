@@ -1,0 +1,36 @@
+.buttonPrimary {
+  padding: 15px 0;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 46px;
+  background-color: var(--primary-color);
+}
+
+.buttonPrimary:hover {
+    background-color: #3f46ff;
+  }
+
+.buttonPrimaryBlack {
+  padding: 15px 0;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 46px;
+  background-color: var(--primary-bg-color);
+}
+
+.buttonPrimaryBlack:hover {
+    background-color: #000000;
+  }
+
+.buttonGhost {
+  padding: 15px 0;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 46px;
+  color: #ffffff65;
+  background-color: #ffffff00;
+}
+
+.buttonGhost:hover {
+    color: #ffffff;
+}

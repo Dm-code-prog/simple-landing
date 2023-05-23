@@ -7,233 +7,108 @@ p.anchor {
   visibility: hidden;
 }
 
-.nav-container {
-  position: fixed;
+.hero-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  border-radius: 20px;
-  padding: 10px;
+  justify-content: space-around;
   align-items: center;
-  width: calc(100% - 200px);
-  top: 0;
-  gap: 30px;
-  margin-top: 15px;
-  backdrop-filter: blur(20px);
-  z-index: 5;
-  border: 1px solid transparent;
-  transition: all 0.3s ease-in-out;
+  margin-bottom: 130px;
+  margin-top: 70px;
 
   @media screen and (max-width: 800px) {
-    justify-content: center;
-    padding-top: 20px;
-    width: calc(100% - 100px);
+    height: 75vh;
+    margin-top: 0;
   }
 
-  @media screen and (max-width: 570px) {
-    width: calc(100% - 40px);
-    gap: 15px;
-    padding-top: 15px;
-  }
-
-  .logo-container {
+  .key-visual-container {
     display: flex;
-    align-items: center;
-
-    .logo-img {
-      width: 35px;
-      margin-right: 10px;
-    }
-
-    .logo-text {
-      line-height: 1;
-      font-size: 32px;
-      font-weight: 600;
-      margin-bottom: 5px;
-      letter-spacing: -0.1rem;
-    }
-  }
-
-  .nav-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 30px;
-
-    @media screen and (max-width: 570px) {
-      gap: 15px;
-    }
-
-    @media screen and (max-width: 420px) {
-      display: none;
-    }
-  }
-
-  .nav-item {
-    font-size: 18px;
-    padding: 15px 20px;
-    border-radius: 26px;
-
-    @media screen and (max-width: 570px) {
-      font-size: 16px;
-      padding: 10px 15px;
-    }
-  }
-
-  .nav-item-button {
-    background: radial-gradient(
-      231.67% 669.56% at 0% 3.35%,
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    backdrop-filter: blur(20px);
-    transition: all 0.2s ease-in-out;
-
-    &:hover {
-      background: white;
-    }
-  }
-
-  .nav-item-mobile-only {
-    @media screen and (min-width: 1200px) {
-      display: none;
-    }
-  }
-
-  .decorate-item {
-    flex-basis: 150px;
-
-    @media screen and (max-width: 1200px) {
-      display: none;
-    }
-  }
-}
-
-.landing-header-container {
-  position: relative;
-  margin-inline: 100px;
-
-  @media screen and (max-width: 800px) {
-    margin-inline: 50px;
-  }
-
-  @media screen and (max-width: 570px) {
-    margin-inline: 20px;
-  }
-
-  .hero-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 160px;
-    margin-bottom: 130px;
-
-    @media screen and (min-width: 1370px) {
-      min-height: 830px;
-      height: 100vh;
-      margin-top: 30px;
-    }
+    flex-direction: column;
+    max-width: 850px;
+    margin-right: 25px;
 
     @media screen and (max-width: 800px) {
-      margin: 0;
-      min-height: 100vh;
+      margin-right: 0;
     }
 
-    .key-visual-container {
-      display: flex;
-      flex-direction: column;
-      max-width: 850px;
-      margin-right: 25px;
+    .header {
+      margin-bottom: 60px;
+      font-size: 6.1vw;
+      line-height: 1.1;
 
-      .header {
-        margin-bottom: 60px;
-        font-size: 6.1vw;
-        line-height: 1.1;
-
-        @media screen and (max-width: 1320px) {
-          font-size: 4rem;
-        }
-
-        @media screen and (max-width: 800px) {
-          font-size: 4rem;
-          text-align: center;
-        }
-      }
-
-      #contact-container {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px;
-        padding-left: 24px;
-        border-radius: 25px;
-        max-width: 670px;
-        background-color: $element-background-color;
-        backdrop-filter: blur(20px);
-
-        @media screen and (max-width: 1120px) {
-          font-size: 10px;
-        }
-
-        .tel {
-          font-size: 2em;
-          min-width: 100px;
-          background-color: transparent;
-          color: white;
-          border: none transparent;
-          outline: none;
-          flex: 1;
-          margin-right: 20px;
-        }
-      }
-
-      .button {
-        background-color: $button-color;
-        color: white;
-        font-size: 2em;
-        font-weight: 600;
-        border-radius: 15px;
-        padding: 20px;
-        cursor: pointer;
-        transition: background 0.2s ease;
-        max-width: 200px;
-        text-align: center;
-
-        &:hover {
-          background: white;
-          color: $accent-color;
-        }
-
-        @media screen and (max-width: 800px) {
-          align-self: center;
-        }
-      }
-    }
-
-    .phone-decoration-container {
-      .phone-decoration {
-        max-height: 620px;
-        min-width: 180px;
-        // filter: drop-shadow(-20px 5px 10px $accent-color);
+      @media screen and (max-width: 1320px) {
+        font-size: 4rem;
       }
 
       @media screen and (max-width: 800px) {
-        display: none;
+        font-size: 4rem;
+        text-align: center;
       }
+    }
+
+    #contact-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
+      padding-left: 24px;
+      border-radius: 25px;
+      max-width: 670px;
+      background-color: $element-background-color;
+      backdrop-filter: blur(20px);
+
+      @media screen and (max-width: 1120px) {
+        font-size: 10px;
+      }
+
+      .tel {
+        font-size: 2em;
+        min-width: 100px;
+        background-color: transparent;
+        color: white;
+        border: none transparent;
+        outline: none;
+        flex: 1;
+        margin-right: 20px;
+      }
+    }
+
+    .button {
+      background-color: $button-color;
+      color: white;
+      font-size: 2em;
+      font-weight: 600;
+      border-radius: 15px;
+      padding: 20px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      max-width: 200px;
+      text-align: center;
+
+      &:hover {
+        background: white;
+        color: $accent-color;
+      }
+
+      @media screen and (max-width: 800px) {
+        align-self: center;
+      }
+    }
+  }
+
+  .phone-decoration-container {
+    .phone-decoration {
+      max-height: 620px;
+      min-width: 180px;
+      // filter: drop-shadow(-20px 5px 10px $accent-color);
+    }
+
+    @media screen and (max-width: 800px) {
+      display: none;
     }
   }
 }
 
+
 .work-container {
-  margin: 0 100px;
   margin-bottom: 200px;
-
-  @media screen and (max-width: 800px) {
-    margin-inline: 50px;
-  }
-
-  @media screen and (max-width: 570px) {
-    margin-inline: 20px;
-  }
 
   .header {
     text-align: center;
@@ -247,10 +122,13 @@ p.anchor {
   .item-container {
     position: relative;
     border-radius: 40px;
-    padding: 0 50px;
-    padding-top: 35px;
+    padding: 35px 50px;
     background-color: $secondary-background-color;
     backdrop-filter: blur(20px);
+
+    @media screen and (max-width: 375px) {
+      padding: 35px 10px
+    }
 
     .cards-container {
       display: flex;
@@ -269,13 +147,12 @@ p.anchor {
         flex-basis: 360px;
         font-size: 20px;
         font-weight: 400;
-        background: radial-gradient(
-          231.67% 669.56% at 0% 3.35%,
-          rgba(255, 255, 255, 0.15) 0%,
-          rgba(255, 255, 255, 0) 100%
-        );
+        background: radial-gradient(231.67% 669.56% at 0% 3.35%,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(255, 255, 255, 0) 100%);
         border-radius: 15px;
         padding: 18px 0;
+        cursor: pointer;
 
         .background-decorator {
           position: absolute;
@@ -292,7 +169,7 @@ p.anchor {
         }
 
         @media screen and (max-width: 800px) {
-          padding: 12px 0;
+          padding: 14px 0;
         }
       }
     }
@@ -312,9 +189,7 @@ p.anchor {
 .functional-container {
   position: relative;
   padding-top: 50px;
-  padding-inline: 50px;
   padding-bottom: 75px;
-  margin: 0 50px;
   margin-bottom: 190px;
   background-color: $secondary-background-color;
   border-radius: 30px;
@@ -324,7 +199,7 @@ p.anchor {
     margin-inline: 20px;
   }
 
-  > .header {
+  >.header {
     text-align: center;
     margin-bottom: 60px;
   }
@@ -349,11 +224,9 @@ p.anchor {
       height: 100%;
       padding: 25px 30px;
       border-radius: 15px;
-      background: radial-gradient(
-        231.67% 669.56% at 0% 3.35%,
-        rgba(255, 255, 255, 0.09) 0%,
-        rgba(255, 255, 255, 0) 100%
-      );
+      background: radial-gradient(231.67% 669.56% at 0% 3.35%,
+          rgba(255, 255, 255, 0.09) 0%,
+          rgba(255, 255, 255, 0) 100%);
       backdrop-filter: blur(20px);
       border: 1px solid #ffffff30;
 
@@ -371,7 +244,6 @@ p.anchor {
 }
 
 .get-app-wrapper {
-  margin: 0 100px;
   margin-bottom: 100px;
   background-color: $secondary-background-color;
   background-image: url(../images/simple.svg);
@@ -632,6 +504,7 @@ p.anchor {
   background: #1f1f1f;
   text-align: center;
   margin-top: 130px;
+  width: 100%;
 
   p {
     color: #858585;
