@@ -10,10 +10,9 @@ import styles from "./get-tx.module.css";
 
 const MOCK_TX = {
   id: "1c381b5b-0488-4680-a92d-53f7f5f29474",
-  sender_phone: "+37433216516",
+  sender_phone: "6516", // sender_phone: "+37433216516",
   amount: 85.22,
   fee: 0.1,
-  comment: "Yo man thanks!",
 };
 
 export default function Home() {
@@ -62,11 +61,13 @@ export default function Home() {
           </h1>
 
           <span className={styles.senderNumber}>
-            from {MOCK_TX.sender_phone}
+            from <span className={styles.hiddenData}>+1 484-300</span>
+            {"  "}
+            {MOCK_TX.sender_phone}
           </span>
 
           <h6 className={styles.commentLabel}>comment:</h6>
-          <span className={styles.commentData}>{MOCK_TX.comment}</span>
+          <span className={styles.commentData}>are you seriously</span>
 
           <button className={styles.receiveButton}>Receive the funds</button>
         </main>
