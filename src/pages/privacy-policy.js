@@ -4,7 +4,7 @@ import React from "react";
 const PrivacyPolicy = () => {
   return (
     <Layout>
-      <div>
+      <div className="privacy-container">
         <h1>Privacy Policy</h1>
         <p>Last updated: February 20, 2023</p>
         <p>
@@ -493,9 +493,7 @@ const PrivacyPolicy = () => {
         <p>
           If you have any questions about this Privacy Policy, You can contact us:
         </p>
-        <ul>
-          <li>By email: legal@simp1e.io</li>
-        </ul>
+          <span>By email: legal@simp1e.io</span>
       </div>
     </Layout>
   );

@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useAnimationControls } from "framer-motion";
+import { motion, useAnimationControls, useInView } from "framer-motion";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 
@@ -123,6 +123,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 export default function Home() {
   const router = useRouter();
 
+  const cardContainerRef = useRef();
+  const cardContainerInView = useInView(cardContainerRef);
+
   const [number, setNumber] = useState();
   const [sliderActiveIndex, setSliderActiveIndex] = useState();
 
@@ -185,8 +188,10 @@ export default function Home() {
       setSliderActiveIndex(2);
       await cardControls.third.start("filled");
     };
-    animation();
-  }, []);
+    if (cardContainerInView) {
+      animation();
+    }
+  }, [cardContainerInView]);
 
   useEffect(() => {
     const animation = async () => {
@@ -245,43 +250,43 @@ export default function Home() {
         <link rel="icon" href="/favicon.svg" />
       </Head>
       <Layout>
-
-          <section class="hero-container">
-            <div class="key-visual-container">
-              <motion.h1
-                variants={sideHeaderAnimation}
-                custom={{ x: -550 }}
-                initial="hidden"
-                animate="visible"
-                class="header"
-              >
-                Crypto Payments
-                <br /> for people
-              </motion.h1>
-              {/* <form id="contact-container"> */}
-              {/* <input class="tel" type="tel" placeholder="Your phone number" /> */}
-              <motion.a
-                variants={sideHeaderAnimation}
-                custom={{ x: -550, delay: 0.5 }}
-                initial="hidden"
-                animate="visible"
-                target="_blank"
-                rel="noreferrer"
-                href="https://app.sympl.money/"
-                class="button"
-              >
-                Try demo
-              </motion.a>
-              {/* </form> */}
-            </div>
-            <motion.div
+        <section class="hero-container">
+          <div class="key-visual-container">
+            <motion.h1
               variants={sideHeaderAnimation}
-              custom={{ x: 550 }}
+              custom={{ x: -550 }}
               initial="hidden"
               animate="visible"
-              class="phone-decoration-container"
+              class="header"
             >
-              {/* <Suspense fallback={"loading"}>
+              Crypto Payments
+              <br />
+              for people
+            </motion.h1>
+            {/* <form id="contact-container"> */}
+            {/* <input class="tel" type="tel" placeholder="Your phone number" /> */}
+            <motion.a
+              variants={sideHeaderAnimation}
+              custom={{ x: -550, delay: 0.5 }}
+              initial="hidden"
+              animate="visible"
+              target="_blank"
+              rel="noreferrer"
+              href="https://app.sympl.money/"
+              class="button"
+            >
+              Try demo
+            </motion.a>
+            {/* </form> */}
+          </div>
+          <motion.div
+            variants={sideHeaderAnimation}
+            custom={{ x: 550 }}
+            initial="hidden"
+            animate="visible"
+            class="phone-decoration-container"
+          >
+            {/* <Suspense fallback={"loading"}>
               <Canvas camera={{ position: [1, 1, 1] }}>
                 <OrbitControls>
                   <Model />
@@ -289,55 +294,21 @@ export default function Home() {
                 <color attach="background" args={["hotpink"]} />
               </Canvas>
             </Suspense> */}
-              <motion.div
-<<<<<<< HEAD
-                variants={howItWorksCardAnimation}
-                initial="empty"
-                animate={cardControls.first}
-                class="background-decorator"
-              ></motion.div>
-              <p className="card-item-text">Select the contact from the list</p>
-            </div>
-            <div className="card-item" onClick={() => setSliderActiveIndex(1)}>
-              <motion.div
-                variants={howItWorksCardAnimation}
-                initial="empty"
-                animate={cardControls.second}
-                class="background-decorator"
-              ></motion.div>
-              <p className="card-item-text">Select the amount for a transfer</p>
-            </div>
-            <div className="card-item" onClick={() => setSliderActiveIndex(2)}>
-              <motion.div
-                variants={howItWorksCardAnimation}
-                initial="empty"
-                animate={cardControls.third}
-                class="background-decorator"
-              ></motion.div>
-              <p className="card-item-text">Make the transfer</p>
-            </div>
-          </div>
-          <div class="image-wrapper">
-            <Image src={sliderImages[sliderActiveIndex]} draggable="false" />
-          </div>
-        </div>
-      </motion.section>
-=======
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <Image key={phoneImg} class="phone-decoration" src={phoneImg} />
-              </motion.div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <Image key={phoneImg} class="phone-decoration" src={phoneImg} />
             </motion.div>
-          </section>
->>>>>>> feature/cards-animation
+          </motion.div>
+        </section>
 
         <motion.section {...sectionAnimationProps} class="work-container">
           <p class="anchor" id="work"></p>
           <div class="item-container">
-            <h3 class="header">How it works</h3>
-            <div class="cards-container">
+            <h1 class="header">How it works</h1>
+            <div ref={cardContainerRef} class="cards-container">
               <div className="card-item" onClick={() => setSliderActiveIndex(0)}>
                 <motion.div
                   variants={howItWorksCardAnimation}
@@ -394,7 +365,7 @@ export default function Home() {
 
         <motion.section {...sectionAnimationProps} class="functional-container">
           <p class="anchor" id="about-us"></p>
-          <h3 class="header">Transfers made simple</h3>
+          <h1 class="header">Transfers made simple</h1>
           <div class="functional-item-container">
             <TransferCards textArray={transfersText} />
           </div>
@@ -407,7 +378,7 @@ export default function Home() {
         >
           <div class="get-app-container">
             <div class="item-container">
-              <h3 class="header">Get the app</h3>
+              <h1 class="header">Get the app</h1>
               <p class="paragraph">
                 Leave your phone number — we will send a link to the app
               </p>
