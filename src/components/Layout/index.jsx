@@ -12,16 +12,15 @@ export const Layout = ({ children }) => {
   const ref = useRef();
 
   const onResize = () => {
-    console.log(ref.current);
     setNavHeight(ref.current.offsetHeight + ref.current.offsetTop * 2);
-    console.log(resizeState);
   };
 
   useEffect(() => {
     window.addEventListener("resize", onResize);
+    setNavHeight(ref.current.offsetHeight + ref.current.offsetTop * 2);
+
     return () => {
       window.removeEventListener("resize", onResize);
-      setNavHeight(ref.current.offsetHeight + ref.current.offsetTop * 2);
     };
   }, []);
 
@@ -29,10 +28,10 @@ export const Layout = ({ children }) => {
     <div className={styles.layoutContainer} style={{ paddingTop: `${navHeight}px` }}>
       <nav ref={ref} className={styles.navWrapper}>
         <div id="landing-nav" className={styles.navContainer}>
-          <div className={styles.logoContainer}>
+          <Link href="/" className={styles.logoContainer}>
             <Image class={styles.logoImg} src={logo} />
             <span class={styles.logoText}>simple</span>
-          </div>
+          </Link>
           <div className={styles.navAnchorsContainer}>
             <a className={styles.navItem} href="#work">
               How it works
