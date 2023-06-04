@@ -7,7 +7,6 @@ import { motion, useAnimationControls, useInView } from "framer-motion";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 
-import logo from "@/images/simple.svg";
 import phoneImg from "@/images/iphone-dimension.png";
 import footerPhoneImg from "@/images/iphone.png";
 
@@ -18,6 +17,7 @@ import sliderSumImg from "@/images/slider-sum.png";
 import "@/scripts/index";
 import TransferCards from "@/components/TransferCards";
 import { Layout } from "@/components/Layout";
+import { useEffectWithoutFirstRender } from "@/helpers/useEffectOnlyOnce";
 // import Model from "@/components/3D/Scene";
 // import { OrbitControls, View } from "@react-three/drei";
 // import { Canvas } from "@react-three/fiber";
