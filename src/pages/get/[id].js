@@ -25,7 +25,8 @@ const modalContent = {
 
 export default function Home() {
   const {
-    query: { tx },
+    query: { a, s },
+    push: routerPush,
   } = useRouter();
 
   const ref = useRef();
@@ -50,6 +51,10 @@ export default function Home() {
   //   }
   // }, []);
 
+  const goToWeb = () => {
+    routerPush("https://app.sympl.money", "_target");
+  };
+
   return (
     <>
       <Head>
@@ -70,9 +75,7 @@ export default function Home() {
       />
       <div className={styles.bgImgContainer}>
         <main className={styles.getTxPage}>
-          <h1 className={styles.receivedHeader}>
-            ${MOCK_TX.amount - MOCK_TX.fee}
-          </h1>
+          <h1 className={styles.receivedHeader}>${a}</h1>
 
           <span className={styles.senderNumber}>
             from{" "}
@@ -80,7 +83,7 @@ export default function Home() {
               +1 484-300
             </span>
             {"  "}
-            {MOCK_TX.sender_phone}
+            {s}
           </span>
 
           <h6 className={styles.commentLabel}>comment:</h6>
@@ -98,9 +101,13 @@ export default function Home() {
             descriptionContent={modalContent.description}
             buttonsJSX={
               <>
-                <Button variant={"primary"}>Go to App Store</Button>
-                <Button variant={"primary-black"}>Telegram Bot</Button>
-                <Button variant={"ghost"}>Use Web version</Button>
+                <Button onClick={goToWeb} variant={"primary"}>
+                  Use Web version
+                </Button>
+                <Button disabled variant={"ghost"}>
+                  Go to App Store
+                </Button>
+                {/* <Button onClick={goTo} variant={"primary-black"}>Telegram Bot</Button> */}
               </>
             }
           />
