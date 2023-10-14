@@ -52,7 +52,7 @@ export default function Home() {
   // }, []);
 
   const goToWeb = () => {
-    routerPush("https://app.sympl.money/", "_target");
+    routerPush("https://simp1e-money.netlify.app/", "_target");
   };
 
   return (
