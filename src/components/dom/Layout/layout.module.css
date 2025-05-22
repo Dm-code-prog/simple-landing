@@ -1,0 +1,141 @@
+.layoutContainer {
+  padding-top: calc(54px + 22px + 30px);
+}
+
+.mainContent {
+  margin-inline: 100px;
+}
+
+.navContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.navWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  margin-top: 15px;
+  z-index: 100;
+}
+
+.navContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-radius: 20px;
+  padding: 10px;
+  align-items: center;
+  width: calc(100% - 200px);
+  gap: 30px;
+  backdrop-filter: blur(20px);
+  border: 1px solid transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.logoImg {
+  width: 35px;
+  margin-right: 10px;
+}
+
+.logoText {
+  line-height: 1;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  letter-spacing: -0.1rem;
+}
+
+.navAnchorsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 30px;
+}
+
+.navItem {
+  font-size: 18px;
+  padding: 15px 20px;
+  border-radius: 26px;
+}
+
+.navItemButton {
+  background: radial-gradient(
+    231.67% 669.56% at 0% 3.35%,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  backdrop-filter: blur(20px);
+  transition: all 0.2s ease-in-out;
+}
+
+.navItemButton:hover {
+  background: white;
+}
+
+.decorateItem {
+  flex-basis: 150px;
+}
+
+@media screen and (max-width: 850px) {
+  .mainContent {
+    margin-inline: 20px;
+  }
+
+  .navContainer {
+    justify-content: center;
+  }
+
+  .navAnchorsContainer {
+    justify-content: center;
+  }
+
+}
+
+/* nav anchors container */
+@media screen and (max-width: 570px) {
+  .navAnchorsContainer {
+    gap: 15px;
+  }
+
+}
+
+@media screen and (max-width: 430px) {
+  .navAnchorsContainer {
+    display: none;
+  }
+
+  .layoutContainer {
+    padding-top: calc(61px + 15px);
+  }
+
+  .navItem {
+    font-size: 16px;
+    padding: 10px 15px;
+  }
+  
+}
+
+.navItemMobileOnly {
+  display: none;
+}
+
+/* decorate item */
+@media screen and (max-width: 1200px) {
+  .decorateItem {
+    display: none;
+  }
+
+  .navItemMobileOnly {
+    display: block;
+  }
+
+}

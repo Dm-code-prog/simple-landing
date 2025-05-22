@@ -1,0 +1,74 @@
+.bgImgContainer {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+}
+
+.getTxPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.getTxPage * {
+  font-family: "ONY Sans";
+}
+
+.receivedHeader {
+  font-size: 130px;
+  margin-bottom: 10px;
+  font-weight: 300;
+  transition: all ease-in-out 0.2s;
+}
+
+.senderNumber {
+  color: #9ca3af;
+  font-weight: 500;
+  font-size: 20px;
+  margin-bottom: 105px;
+}
+
+.commentLabel {
+  color: #9ca3af;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.commentData {
+  color: white;
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 125px;
+  text-align: center;
+  filter: blur(8px);
+}
+
+.receiveButton {
+  max-width: 250px;
+  font-size: 16px;
+  padding: 15px 50px;
+  color: white;
+  background-color: #6c70ff;
+  border-radius: 46px;
+  word-wrap: unset;
+  transition: all ease-in-out 0.15s;
+}
+
+.receiveButton:hover {
+  background-color: #3f46ff;
+}
+
+.hiddenData {
+  filter: blur(5px);
+}
+
+@media (max-width: 374px) {
+  .receivedHeader {
+    font-size: 99px;
+  }
+}
