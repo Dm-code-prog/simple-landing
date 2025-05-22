@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { Suspense } from 'react'
 import Link from 'next/link'
 import styles from '@/styles/Beta.module.css'
 import bgMetal from '@/images/bg-metal.png'
@@ -10,6 +10,8 @@ import bgMetal2 from '@/images/bg-metal-2.jpg'
 import phoneBookScreen from '@/images/screen-phonebook.png'
 import loginScreen from '@/images/login-screen.png'
 import sendingMoneyScreen from '@/images/sending-money-screen.png'
+import { View } from '@/components/canvas/View'
+import { Duck } from '@/components/canvas/Examples'
 
 export default function Beta() {
   return (
@@ -69,6 +71,17 @@ export default function Beta() {
             />
           </motion.div>
         </div>
+
+        <View className='phone-view' orbit>
+          <Suspense fallback={null}>
+            {/* <Phone /> */}
+            {/* <mesh scale={20}>
+              <boxGeometry args={[1, 1, 1]} />
+              <meshStandardMaterial color='hotpink' />
+            </mesh> */}
+            <Duck />
+          </Suspense>
+        </View>
 
         {/* Absolutely Positioned Transfer Cards */}
         <motion.div
@@ -185,7 +198,115 @@ export default function Beta() {
               height={700}
               className={styles.sendingPhoneImage}
             />
+
+            {/* Floating Feature Cards */}
+            <motion.div
+              className={`${styles.featureCard} ${styles.featureCard1}`}
+              initial={{ opacity: 0, scale: 0.8, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+            >
+              <div className={styles.featureIcon}>⚡</div>
+              <span className={styles.featureText}>No Gas Fees</span>
+            </motion.div>
+
+            <motion.div
+              className={`${styles.featureCard} ${styles.featureCard2}`}
+              initial={{ opacity: 0, scale: 0.8, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <div className={styles.featureIcon}>🔗</div>
+              <span className={styles.featureText}>No Blockchain Complexity</span>
+            </motion.div>
+
+            <motion.div
+              className={`${styles.featureCard} ${styles.featureCard3}`}
+              initial={{ opacity: 0, scale: 0.8, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+              viewport={{ once: true }}
+            >
+              <div className={styles.featureIcon}>✨</div>
+              <span className={styles.featureText}>Just 3 Clicks</span>
+            </motion.div>
           </motion.div>
+
+          {/* Text Content */}
+          <motion.div
+            className={styles.sendingText}
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <motion.h2
+              className={styles.sendingTitle}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+            >
+              Send money to
+              <br />
+              anyone in just
+              <br />
+              <span className={styles.highlightText}>3 clicks</span>
+            </motion.h2>
+
+            <motion.p
+              className={styles.sendingDescription}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              viewport={{ once: true }}
+            >
+              Forget about blockchain complexity, gas fees, and
+              <br />
+              wallet addresses. Send crypto as easily as sending
+              <br />a text message.
+            </motion.p>
+
+            <motion.div
+              className={styles.sendingFeatures}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className={styles.feature}>
+                <div className={styles.featureBullet}></div>
+                <span>No technical knowledge required</span>
+              </div>
+              <div className={styles.feature}>
+                <div className={styles.featureBullet}></div>
+                <span>Instant transfers worldwide</span>
+              </div>
+              <div className={styles.feature}>
+                <div className={styles.featureBullet}></div>
+                <span>Bank-level security</span>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Background Elements */}
+        <div className={styles.sendingBackground}>
+          <Image
+            src={bgMetal}
+            alt='Metal background'
+            fill
+            style={{ objectFit: 'cover' }}
+            className={styles.sendingBgImage}
+          />
+        </div>
+        <div className={styles.sendingGradients}>
+          <div className={styles.sendingGradient1}></div>
+          <div className={styles.sendingGradient2}></div>
+          <div className={styles.sendingGradient3}></div>
+          <div className={styles.sendingGradient4}></div>
         </div>
       </section>
     </div>

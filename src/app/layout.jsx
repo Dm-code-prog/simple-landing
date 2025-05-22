@@ -1,5 +1,6 @@
 import '@/styles/globals.css'
 import '@/styles/main.scss'
+import { Layout } from '@/components/dom/Layout'
 
 export const metadata = {
   title: 'Simple',
@@ -14,7 +15,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en'>
       <head />
-      <body>{children}</body>
+      <body>
+        <Layout>{children}</Layout>
+      </body>
     </html>
   )
 }
