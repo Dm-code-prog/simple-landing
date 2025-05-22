@@ -1,529 +1,305 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import Link from "next/link";
-import { motion, useAnimationControls, useInView } from "framer-motion";
-import "react-phone-number-input/style.css";
-import PhoneInput from "react-phone-number-input";
+import styles from "../styles/Beta.module.css";
+import bgMetal from "../images/bg-metal.png";
+import bgMetal2 from "../images/bg-metal-2.jpg";
+import phoneBookScreen from "../images/screen-phonebook.png";
+import loginScreen from "../images/login-screen.png";
+import sendingMoneyScreen from "../images/sending-money-screen.png";
 
-import phoneImg from "@/images/iphone-dimension.png";
-import footerPhoneImg from "@/images/iphone.png";
-
-import sliderContactImg from "@/images/slider-contact.png";
-import sliderReceivedImg from "@/images/slider-received.png";
-import sliderSumImg from "@/images/slider-sum.png";
-
-import "@/scripts/index";
-import TransferCards from "@/components/TransferCards";
-import { Layout } from "@/components/Layout";
-import { useEffectWithoutFirstRender } from "@/helpers/useEffectOnlyOnce";
-// import Model from "@/components/3D/Scene";
-// import { OrbitControls, View } from "@react-three/drei";
-// import { Canvas } from "@react-three/fiber";
-
-const sliderImages = [sliderContactImg, sliderSumImg, sliderReceivedImg];
-
-const transfersText = [
-  {
-    header: "Phone number is a User Identity",
-    p: "Automatically create a crypto wallet or add your existing one and link it with your phone number. Of course, you can switch to the username if you want to.",
-  },
-  {
-    header: "Transfer to friends directly from messages",
-    p: "Find your friends in the contact list and send crypto simple as a message. View the history of transfers with your friends in a form of a chat.",
-  },
-  {
-    header: "Simple Protocol",
-    p: "Transfer crypto from and to any network in any asset. We will cover everything for you.",
-  },
-  {
-    header: "Pay by a debit card in crypto",
-    p: "Issuing a Simple debit card and pay with your cryptocurrencies anywhere",
-  },
-  // {
-  //   header: "Receive payments for self-employed",
-  //   p: "Accept payments in crypto in any situation you want.",
-  // },
-  // {
-  //   header: "Seamless fiat to crypto conversion",
-  //   p: "Send crypto and receive fiat money just in one transaction.",
-  // },
-];
-
-const sectionAnimation = {
-  hidden: {
-    y: 150,
-    opacity: 0,
-  },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { duration: 0.6 },
-  },
-  viewPort: {
-    amount: 0.2,
-    once: true,
-  },
-};
-
-const sectionAnimationProps = {
-  variants: sectionAnimation,
-  initial: "hidden",
-  whileInView: "visible",
-  viewport: sectionAnimation.viewPort,
-};
-
-const sideHeaderAnimation = {
-  hidden: (custom) => ({
-    x: custom.x, // set -x value to start from left side and x to start from right side
-    opacity: 0,
-  }),
-  visible: (custom) => ({
-    x: 0,
-    opacity: 1,
-    transition: { duration: 1, delay: custom.delay },
-  }),
-};
-
-const howItWorksCardAnimation = {
-  empty: {
-    width: 0,
-    borderRadius: "15px 0px 0px 15px",
-  },
-  filled: {
-    width: "100%",
-    backgroundColor: "#5356D9",
-    transition: { duration: 6, ease: "linear" },
-    borderRadius: "15px",
-  },
-  filledInstant: {
-    width: "100%",
-    backgroundColor: "#5356D9",
-    transition: { duration: 1, ease: "linear" },
-    borderRadius: "15px",
-  },
-};
-
-const cardImageAnimation = {
-  hidden: {
-    opacity: 0,
-    display: "none",
-  },
-
-  visible: {
-    opacity: 1,
-    display: "block",
-    transition: { duration: 2 },
-  },
-};
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-export default function Home() {
-  const router = useRouter();
-
-  const cardContainerRef = useRef();
-  const cardContainerInView = useInView(cardContainerRef);
-
-  const [number, setNumber] = useState();
-  const [sliderActiveIndex, setSliderActiveIndex] = useState();
-
-  const cardControls = {
-    first: useAnimationControls(),
-    second: useAnimationControls(),
-    third: useAnimationControls(),
-  };
-
-  const imageControls = {
-    first: useAnimationControls(),
-    second: useAnimationControls(),
-    third: useAnimationControls(),
-  };
-
-  const handlePhoneWaitlistSubmit = (type) => (event) => {
-    const myForm =
-      type === "mobile"
-        ? document.getElementById("form-container")
-        : event.target.parentNode;
-    const formData = new FormData(myForm);
-
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData).toString(),
-    })
-      .then(() =>
-        alert(
-          "Success! We have received your phone number and added you to our waitlist. We will be in touch as soon as the app becomes available."
-        )
-      )
-      .catch((error) => alert(error));
-  };
-
-  useEffect(() => {
-    if (process.browser) {
-      const navbar = document.getElementById("landing-nav");
-
-      document.addEventListener("scroll", navbarControl);
-
-      function navbarControl() {
-        if (scrollY > 75) {
-          navbar.classList.add("navbar-background");
-        } else {
-          navbar.classList.remove("navbar-background");
-        }
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    const animation = async () => {
-      setSliderActiveIndex(0);
-      await cardControls.first.start("filled");
-
-      setSliderActiveIndex(1);
-      await cardControls.second.start("filled");
-
-      setSliderActiveIndex(2);
-      await cardControls.third.start("filled");
-    };
-    if (cardContainerInView) {
-      animation();
-    }
-  }, [cardContainerInView]);
-
-  useEffect(() => {
-    const animation = async () => {
-      switch (sliderActiveIndex) {
-        case 0:
-          imageControls.second.set("hidden");
-          imageControls.third.set("hidden");
-          imageControls.first.start("visible");
-
-          cardControls.third.start("empty");
-          cardControls.second.start("empty");
-          await cardControls.first.start("empty");
-          cardControls.first.start("filled").then(() => {
-            setSliderActiveIndex(1);
-          });
-          break;
-
-        case 1:
-          imageControls.first.set("hidden");
-          imageControls.third.set("hidden");
-          imageControls.second.start("visible");
-
-          cardControls.first.start("filledInstant");
-          cardControls.third.start("empty");
-          await cardControls.second.start("empty");
-          cardControls.second.start("filled").then(() => {
-            setSliderActiveIndex(2);
-          });
-          break;
-
-        case 2:
-          imageControls.second.set("hidden");
-          imageControls.first.set("hidden");
-          imageControls.third.start("visible");
-
-          cardControls.first.start("filledInstant");
-          cardControls.second.start("filledInstant");
-          cardControls.third.start("filled");
-          break;
-
-        default:
-          break;
-      }
-    };
-    animation();
-  }, [sliderActiveIndex]);
+export default function App() {
   return (
     <>
       <Head>
-        <title>simple</title>
+        <title>Simple - Beta</title>
         <meta
           name="description"
-          content="Simple way to transfer assets with zero crypto knowledge"
+          content="Simple crypto payments by phone number"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" />
       </Head>
-      <Layout>
-        <section class="hero-container">
-          <div class="key-visual-container">
-            <motion.h1
-              variants={sideHeaderAnimation}
-              custom={{ x: -550 }}
-              initial="hidden"
-              animate="visible"
-              class="header"
-            >
-              Crypto Payments
-              <br />
-              for people
-            </motion.h1>
-            {/* <form id="contact-container"> */}
-            {/* <input class="tel" type="tel" placeholder="Your phone number" /> */}
-            <motion.a
-              variants={sideHeaderAnimation}
-              custom={{ x: -550, delay: 0.5 }}
-              initial="hidden"
-              animate="visible"
-              target="_blank"
-              rel="noreferrer"
-              href="https://app.sympl.money/"
-              class="button"
-            >
-              Try demo
-            </motion.a>
-            {/* </form> */}
+
+      <div className={styles.container}>
+        {/* Navigation */}
+        <nav className={styles.nav}>
+          <div className={styles.navContent}>
+            <Link href="/" className={styles.logo}>
+              <Image src="/logo.svg" alt="Simple" width={80} height={18} />
+            </Link>
+            <div className={styles.navLinks}>
+              <a href="#how-it-works" className={styles.navLink}>How it works</a>
+              <a href="#about-us" className={styles.navLink}>About Us</a>
+              <a href="#get-app" className={styles.navButton}>Get App</a>
+            </div>
           </div>
-          <motion.div
-            variants={sideHeaderAnimation}
-            custom={{ x: 550 }}
-            initial="hidden"
-            animate="visible"
-            class="phone-decoration-container"
-          >
-            {/* <Suspense fallback={"loading"}>
-              <Canvas camera={{ position: [1, 1, 1] }}>
-                <OrbitControls>
-                  <Model />
-                </OrbitControls>
-                <color attach="background" args={["hotpink"]} />
-              </Canvas>
-            </Suspense> */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+        </nav>
+
+        {/* Hero Section */}
+        <main className={styles.hero}>
+          <div className={styles.heroContent}>
+            {/* Main Title */}
+            <motion.div 
+              className={styles.heroText}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              <Image key={phoneImg} class="phone-decoration" src={phoneImg} />
+              <h1 className={styles.heroTitle}>
+                Simple crypto<br />
+                payments by phone<br />
+                number
+              </h1>
             </motion.div>
-          </motion.div>
-        </section>
 
-        <motion.section {...sectionAnimationProps} class="work-container">
-          <p class="anchor" id="work"></p>
-          <div class="item-container">
-            <h1 class="header">How it works</h1>
-            <div ref={cardContainerRef} class="cards-container">
-              <div className="card-item" onClick={() => setSliderActiveIndex(0)}>
-                <motion.div
-                  variants={howItWorksCardAnimation}
-                  initial="empty"
-                  animate={cardControls.first}
-                  class="background-decorator"
-                ></motion.div>
-                <p className="card-item-text">Select the contact from the list</p>
-              </div>
-              <div className="card-item" onClick={() => setSliderActiveIndex(1)}>
-                <motion.div
-                  variants={howItWorksCardAnimation}
-                  initial="empty"
-                  animate={cardControls.second}
-                  class="background-decorator"
-                ></motion.div>
-                <p className="card-item-text">Select the amount for a transfer</p>
-              </div>
-              <div className="card-item" onClick={() => setSliderActiveIndex(2)}>
-                <motion.div
-                  variants={howItWorksCardAnimation}
-                  initial="empty"
-                  animate={cardControls.third}
-                  class="background-decorator"
-                ></motion.div>
-                <p className="card-item-text">Transfer assets</p>
-              </div>
-            </div>
-            <div class="image-wrapper">
-              <motion.div
-                variants={cardImageAnimation}
-                initial="hidden"
-                animate={imageControls.first}
-              >
-                <Image priority={true} src={sliderImages[0]} draggable="false" />
-              </motion.div>
-              <motion.div
-                variants={cardImageAnimation}
-                initial="hidden"
-                animate={imageControls.second}
-              >
-                <Image priority={true} src={sliderImages[1]} draggable="false" />
-              </motion.div>
-              <motion.div
-                variants={cardImageAnimation}
-                initial="hidden"
-                animate={imageControls.third}
-              >
-                <Image priority={true} src={sliderImages[2]} draggable="false" />
-              </motion.div>
-            </div>
-          </div>
-        </motion.section>
-
-        <motion.section {...sectionAnimationProps} class="functional-container">
-          <p class="anchor" id="about-us"></p>
-          <h1 class="header">Transfers made simple</h1>
-          <div class="functional-item-container">
-            <TransferCards textArray={transfersText} />
-          </div>
-        </motion.section>
-
-        <motion.section
-          {...sectionAnimationProps}
-          id="get-app"
-          class="get-app-wrapper"
-        >
-          <div class="get-app-container">
-            <div class="item-container">
-              <h1 class="header">Get the app</h1>
-              <p class="paragraph">
-                Leave your phone number — we will send a link to the app
-              </p>
-              <form
-                name="phoneWaitlist"
-                method="post"
-                data-netlify="true"
-                id="form-container"
-              >
-                <input type="hidden" name="form-name" value="phoneWaitlist" />
-                <PhoneInput
-                  className="tel"
-                  placeholder="+971 50 060 600"
-                  value={number}
-                  onChange={setNumber}
-                  name="phone"
-                />
-                <button class="button" onClick={handlePhoneWaitlistSubmit("pc")}>
-                  Get link
-                </button>
-              </form>
-              <button
-                className="mobile-button"
-                onClick={handlePhoneWaitlistSubmit("mobile")}
-              >
-                Get link
-              </button>
-              <p class="policy">
-                By clicking the button, you consent to the processing of personal
-                data in accordance with the rules for the
-                <Link target="_blank" href="/privacy-policy">
-                  <b>&nbsp;the privacy policy.</b>
-                </Link>
-              </p>
-            </div>
-            <div class="decoration-container">
-              <Image class="decoration-item" src={footerPhoneImg} alt="" />
-            </div>
-          </div>
-        </motion.section>
-      </Layout>
-      {/* <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>src/pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
+            {/* Phone Mockup */}
+            <motion.div 
+              className={styles.phoneContainer}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
             >
-              By{" "}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
+              <Image 
+                src={phoneBookScreen}
+                alt="Phone showing crypto payment"
+                width={300}
+                height={600}
+                className={styles.phoneImage}
               />
-            </a>
+            </motion.div>
           </div>
-        </div>
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
+          {/* Absolutely Positioned Transfer Cards */}
+          <motion.div 
+            className={`${styles.transferCard} ${styles.sendingCard}`}
+            initial={{ opacity: 0, scale: 0.8, x: -100 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            <div className={styles.cardContent}>
+              <span className={styles.cardLabel}>You sent Inna</span>
+              <span className={styles.cardAmount}>$1250</span>
+              <div className={styles.avatar}></div>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            className={`${styles.transferCard} ${styles.receivingCard}`}
+            initial={{ opacity: 0, scale: 0.8, x: 100 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+          >
+            <div className={styles.cardContent}>
+              <span className={styles.cardLabel}>Gavril sent you</span>
+              <span className={styles.cardAmount}>$9490</span>
+              <div className={styles.avatar}></div>
+            </div>
+          </motion.div>
+
+          {/* Background Elements */}
+          <div className={styles.backgroundImage}>
+            <Image 
+              src={bgMetal}
+              alt="Metal background" 
+              fill
+              style={{ objectFit: 'cover' }}
+              className={styles.bgImage}
             />
           </div>
-        </div>
+          <div className={styles.backgroundGradients}>
+            <div className={styles.gradient1}></div>
+            <div className={styles.gradient2}></div>
+            <div className={styles.gradient3}></div>
+          </div>
+        </main>
 
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
+        {/* Phone Identity Section */}
+        <section className={styles.identitySection}>
+          <div className={styles.identityContent}>
+            {/* Text Content */}
+            <motion.div 
+              className={styles.identityText}
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className={styles.identityTitle}>
+                Phone<br />
+                number is a<br />
+                user identity
+              </h2>
+              <p className={styles.identityDescription}>
+                Automatically create a crypto wallet or add your<br />
+                existing one and link it with your number
+              </p>
+            </motion.div>
 
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
+            {/* Phone Mockup */}
+            <motion.div 
+              className={styles.identityPhoneContainer}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <Image 
+                src={loginScreen}
+                alt="Login screen showing phone number verification"
+                width={320}
+                height={640}
+                className={styles.identityPhoneImage}
+              />
+            </motion.div>
+          </div>
 
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
+          {/* Background Elements */}
+          <div className={styles.identityBackground}>
+            <Image 
+              src={bgMetal2}
+              alt="Metal background" 
+              fill
+              style={{ objectFit: 'cover' }}
+              className={styles.identityBgImage}
+            />
+          </div>
+          <div className={styles.identityGradients}>
+            <div className={styles.identityGradient1}></div>
+            <div className={styles.identityGradient2}></div>
+            <div className={styles.identityGradient3}></div>
+          </div>
+        </section>
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main> */}
+        {/* Money Sending Section */}
+        <section className={styles.sendingSection}>
+          <div className={styles.sendingContent}>
+            {/* Phone Mockup */}
+            <motion.div 
+              className={styles.sendingPhoneContainer}
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <Image 
+                src={sendingMoneyScreen}
+                alt="Send money screen showing easy crypto transfer"
+                width={350}
+                height={700}
+                className={styles.sendingPhoneImage}
+              />
+              
+              {/* Floating Feature Cards */}
+              <motion.div 
+                className={`${styles.featureCard} ${styles.featureCard1}`}
+                initial={{ opacity: 0, scale: 0.8, y: 30 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
+              >
+                <div className={styles.featureIcon}>⚡</div>
+                <span className={styles.featureText}>No Gas Fees</span>
+              </motion.div>
+
+              <motion.div 
+                className={`${styles.featureCard} ${styles.featureCard2}`}
+                initial={{ opacity: 0, scale: 0.8, y: 30 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                viewport={{ once: true }}
+              >
+                <div className={styles.featureIcon}>🔗</div>
+                <span className={styles.featureText}>No Blockchain Complexity</span>
+              </motion.div>
+
+              <motion.div 
+                className={`${styles.featureCard} ${styles.featureCard3}`}
+                initial={{ opacity: 0, scale: 0.8, y: 30 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+                viewport={{ once: true }}
+              >
+                <div className={styles.featureIcon}>✨</div>
+                <span className={styles.featureText}>Just 3 Clicks</span>
+              </motion.div>
+            </motion.div>
+
+            {/* Text Content */}
+            <motion.div 
+              className={styles.sendingText}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <motion.h2 
+                className={styles.sendingTitle}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                viewport={{ once: true }}
+              >
+                Send money to<br />
+                anyone in just<br />
+                <span className={styles.highlightText}>3 clicks</span>
+              </motion.h2>
+              
+              <motion.p 
+                className={styles.sendingDescription}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                viewport={{ once: true }}
+              >
+                Forget about blockchain complexity, gas fees, and<br />
+                wallet addresses. Send crypto as easily as sending<br />
+                a text message.
+              </motion.p>
+
+              <motion.div 
+                className={styles.sendingFeatures}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <div className={styles.feature}>
+                  <div className={styles.featureBullet}></div>
+                  <span>No technical knowledge required</span>
+                </div>
+                <div className={styles.feature}>
+                  <div className={styles.featureBullet}></div>
+                  <span>Instant transfers worldwide</span>
+                </div>
+                <div className={styles.feature}>
+                  <div className={styles.featureBullet}></div>
+                  <span>Bank-level security</span>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+
+          {/* Background Elements */}
+          <div className={styles.sendingBackground}>
+            <Image 
+              src={bgMetal}
+              alt="Metal background" 
+              fill
+              style={{ objectFit: 'cover' }}
+              className={styles.sendingBgImage}
+            />
+          </div>
+          <div className={styles.sendingGradients}>
+            <div className={styles.sendingGradient1}></div>
+            <div className={styles.sendingGradient2}></div>
+            <div className={styles.sendingGradient3}></div>
+            <div className={styles.sendingGradient4}></div>
+          </div>
+        </section>
+      </div>
     </>
   );
-}
+} 
