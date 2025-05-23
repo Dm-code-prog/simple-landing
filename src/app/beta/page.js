@@ -10,8 +10,9 @@ import bgMetal2 from '@/images/bg-metal-2.jpg'
 import phoneBookScreen from '@/images/screen-phonebook.png'
 import loginScreen from '@/images/login-screen.png'
 import sendingMoneyScreen from '@/images/sending-money-screen.png'
-import { View } from '@/components/canvas/View'
-import { Duck } from '@/components/canvas/Examples'
+import { View, Common } from '@/components/canvas/View'
+import { Duck, Phone } from '@/components/canvas/Examples'
+import { Environment, PivotControls } from '@react-three/drei'
 
 export default function Beta() {
   return (
@@ -72,14 +73,14 @@ export default function Beta() {
           </motion.div>
         </div>
 
-        <View className='phone-view' orbit>
+        <View
+          className='phone-view'
+          orbit
+          style={{ width: '300px', height: '500px', border: '2px solid red', zIndex: 1000 }}
+        >
           <Suspense fallback={null}>
-            {/* <Phone /> */}
-            {/* <mesh scale={20}>
-              <boxGeometry args={[1, 1, 1]} />
-              <meshStandardMaterial color='hotpink' />
-            </mesh> */}
-            <Duck />
+            <Common />
+            <Phone position={[0, 0, 0]} scale={2} />
           </Suspense>
         </View>
 

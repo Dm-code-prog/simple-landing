@@ -1,0 +1,1 @@
+export { PhoneModel } from './Phone'
