@@ -65,25 +65,24 @@ export function PhoneModel(props) {
           transform
           center
           occlude={'blending'}
+          // occlude={true}
           wrapperClass='phone-screen-html'
           distanceFactor={0.5}
-          position={[0, 0, -0.015]}
+          position={[0, 0, -0.02]}
           rotation={[0, Math.PI, 0]}
           scale={1}
           style={{
             transformOrigin: 'center center',
           }}
           // occlude={[nodes.Frame_Frame_0, nodes.Frame_Mic_0]}
-          // sprite
         >
-          <div
+          <iframe
             style={{
-              width: '375px',
+              width: '355px',
               height: '790px',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              // background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               color: 'white',
-              padding: '15px',
-              borderRadius: '8px',
+              // padding: '15px',
               fontSize: '14px',
               fontFamily: 'Arial, sans-serif',
               textAlign: 'center',
@@ -91,15 +90,15 @@ export function PhoneModel(props) {
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
               borderRadius: '60px',
               transformOrigin: 'center center',
+              userSelect: 'none',
             }}
+            src='https://simp1e-money.netlify.app/'
           >
-            <h1 style={{ color: 'white', fontSize: '20px', margin: '0 0 8px 0' }}>Hello</h1>
-            <p style={{ margin: '0', opacity: 0.9, fontSize: '12px' }}>Interactive Screen</p>
-          </div>
+            {/* <h1 style={{ color: 'white', fontSize: '20px', margin: '0 0 8px 0' }}>Hello</h1>
+            <p style={{ margin: '0', opacity: 0.9, fontSize: '12px' }}>Interactive Screen</p> */}
+          </iframe>
         </Html>
         {/* <meshBasicMaterial side={THREE.DoubleSide} color='red' /> */}
         {/* <Html className='content' position={[0, 0.05, -0.09]} scale={[100, 100, 100]}>
