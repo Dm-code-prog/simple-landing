@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Suspense } from 'react'
 import Link from 'next/link'
 import styles from '@/styles/Beta.module.css'
 import bgMetal from '@/images/bg-metal.png'
@@ -12,7 +11,6 @@ import loginScreen from '@/images/login-screen.png'
 import sendingMoneyScreen from '@/images/sending-money-screen.png'
 import { View, Common } from '@/components/canvas/View'
 import { Duck, Phone } from '@/components/canvas/Examples'
-import { Environment, PivotControls } from '@react-three/drei'
 
 export default function Beta() {
   return (
@@ -72,18 +70,12 @@ export default function Beta() {
             />
           </motion.div>
         </div>
-
-        <View
-          className='phone-view'
-          orbit
-          style={{ width: '300px', height: '500px', border: '2px solid red', zIndex: 1000 }}
-        >
-          <Suspense fallback={null}>
-            <Common />
-            <Phone position={[0, 0, 0]} scale={2} />
-          </Suspense>
+        {/* <Scene style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 1000 }}> */}
+        <View orbit style={{ width: '300px', height: '500px', zIndex: 1000 }}>
+          <Common />
+          <Phone position={[0, 0, 0]} scale={2.5} />
         </View>
-
+        {/* </Scene> */}
         {/* Absolutely Positioned Transfer Cards */}
         <motion.div
           className={`${styles.transferCard} ${styles.sendingCard}`}
@@ -308,6 +300,98 @@ export default function Beta() {
           <div className={styles.sendingGradient2}></div>
           <div className={styles.sendingGradient3}></div>
           <div className={styles.sendingGradient4}></div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section id='about-us' className={styles.teamSection}>
+        <div className={styles.teamContent}>
+          <motion.div
+            className={styles.teamHeader}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <span className={styles.teamSectionLabel}>Family</span>
+            <h2 className={styles.teamTitle}>People</h2>
+            <p className={styles.teamSubtitle}>The great minds behind our work.</p>
+          </motion.div>
+
+          <div className={styles.teamGrid}>
+            <motion.div
+              className={styles.teamMember}
+              initial={{ opacity: 0, scale: 0.8, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <div className={styles.memberImageContainer}>
+                <div
+                  className={styles.memberImage}
+                  style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                >
+                  <span className={styles.memberInitials}>DH</span>
+                </div>
+              </div>
+              <h3 className={styles.memberName}>Dylan de Heer</h3>
+              <p className={styles.memberRole}>Co-founder & Product Designer</p>
+            </motion.div>
+
+            <motion.div
+              className={styles.teamMember}
+              initial={{ opacity: 0, scale: 0.8, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+            >
+              <div className={styles.memberImageContainer}>
+                <div
+                  className={styles.memberImage}
+                  style={{ background: 'linear-gradient(135deg, #74b9ff 0%, #0984e3 100%)' }}
+                >
+                  <span className={styles.memberInitials}>TE</span>
+                </div>
+              </div>
+              <h3 className={styles.memberName}>Thierry Emmery</h3>
+              <p className={styles.memberRole}>Co-founder & Product Designer</p>
+            </motion.div>
+
+            <motion.div
+              className={styles.teamMember}
+              initial={{ opacity: 0, scale: 0.8, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <div className={styles.memberImageContainer}>
+                <div
+                  className={styles.memberImage}
+                  style={{ background: 'linear-gradient(135deg, #fdcb6e 0%, #e17055 100%)' }}
+                >
+                  <span className={styles.memberInitials}>SF</span>
+                </div>
+              </div>
+              <h3 className={styles.memberName}>Sasha Filipchyk</h3>
+              <p className={styles.memberRole}>Product & Brand Designer</p>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Background Elements */}
+        <div className={styles.teamBackground}>
+          <Image
+            src={bgMetal2}
+            alt='Metal background'
+            fill
+            style={{ objectFit: 'cover' }}
+            className={styles.teamBgImage}
+          />
+        </div>
+        <div className={styles.teamGradients}>
+          <div className={styles.teamGradient1}></div>
+          <div className={styles.teamGradient2}></div>
+          <div className={styles.teamGradient3}></div>
         </div>
       </section>
     </div>

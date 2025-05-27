@@ -1,16 +1,17 @@
 'use client'
 
 import { forwardRef, Suspense, useImperativeHandle, useRef } from 'react'
-import { OrbitControls, OrthographicCamera, View as ViewImpl } from '@react-three/drei'
+import { Lightformer, OrbitControls, OrthographicCamera, View as ViewImpl } from '@react-three/drei'
 import { Three } from '@/helpers/components/Three'
+// import { HemisphereLight } from 'three/webgpu'
 
 export const Common = ({ color }) => (
   <Suspense fallback={null}>
     {color && <color attach='background' args={[color]} />}
-    <ambientLight />
-    <pointLight position={[20, 30, 10]} intensity={3} decay={0.2} />
-    <pointLight position={[-10, -10, -10]} color='blue' decay={0.2} />
-    <OrthographicCamera makeDefault position={[0, 0, 6]} zoom={200} />
+    <ambientLight intensity={0.5} />
+    <pointLight position={[20, 30, 10]} intensity={5} decay={0.2} />
+    <pointLight position={[-10, -10, -10]} intensity={3} color='blue' decay={0.2} />
+    <OrthographicCamera makeDefault={true} far={1000} near={-1000} position={[0, 0, 6]} zoom={200} />
   </Suspense>
 )
 

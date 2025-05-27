@@ -65,8 +65,42 @@ export function PhoneModel(props) {
       <mesh geometry={nodes.Frame_Frame_0.geometry} material={materials.PaletteMaterial001} />
       <mesh geometry={nodes.Frame_Mic_0.geometry} material={materials.material} />
       {/* <mesh geometry={nodes.Body_Wallpaper_0.geometry} material={screenMaterial} /> */}
-      <mesh geometry={nodes.Body_Wallpaper_0.geometry}>
-        <meshBasicMaterial side={THREE.DoubleSide} color='red' />
+      <mesh visible={true} geometry={nodes.Body_Wallpaper_0.geometry}>
+        <Html
+          transform
+          // center
+          wrapperClass='phone-screen-html'
+          distanceFactor={0.5}
+          position={[0, 0, 0.01]}
+          rotation={[0, -Math.PI / 2, 0]}
+          scale={1}
+          sprite
+        >
+          <div
+            style={{
+              width: '240px',
+              height: '400px',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              color: 'white',
+              padding: '15px',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontFamily: 'Arial, sans-serif',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              transformOrigin: 'center center',
+            }}
+          >
+            <h1 style={{ color: 'white', fontSize: '20px', margin: '0 0 8px 0' }}>Hello</h1>
+            <p style={{ margin: '0', opacity: 0.9, fontSize: '12px' }}>Interactive Screen</p>
+          </div>
+        </Html>
+        {/* <meshBasicMaterial side={THREE.DoubleSide} color='red' /> */}
         {/* <Html className='content' position={[0, 0.05, -0.09]} scale={[100, 100, 100]}>
           <div
             style={{
