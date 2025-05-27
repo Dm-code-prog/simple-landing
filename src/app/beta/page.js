@@ -9,8 +9,9 @@ import bgMetal2 from '@/images/bg-metal-2.jpg'
 import phoneBookScreen from '@/images/screen-phonebook.png'
 import loginScreen from '@/images/login-screen.png'
 import sendingMoneyScreen from '@/images/sending-money-screen.png'
-import { View, Common } from '@/components/canvas/View'
-import { Duck, Phone } from '@/components/canvas/Examples'
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls, OrthographicCamera } from '@react-three/drei'
+import { PhoneModel } from '@/components/models/Phone'
 
 export default function Beta() {
   return (
@@ -70,12 +71,30 @@ export default function Beta() {
             />
           </motion.div>
         </div>
-        {/* <Scene style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 1000 }}> */}
-        <View orbit style={{ width: '300px', height: '500px', zIndex: 1000 }}>
-          <Common />
-          <Phone position={[0, 0, 0]} scale={2.5} />
-        </View>
-        {/* </Scene> */}
+        {/* Direct Canvas implementation without Layout/Scene/View */}
+        <div style={{ width: '300px', height: '500px', zIndex: 1000, position: 'relative' }}>
+          <Canvas
+            camera={{ position: [0, 0, 6], zoom: 200, far: 1000, near: -1000 }}
+            onCreated={(state) => {
+              // Set renderer properties if needed
+              state.gl.setClearColor('#000000', 0) // Transparent background
+            }}
+          >
+            {/* Lighting */}
+            <ambientLight intensity={0.5} />
+            <pointLight position={[20, 30, 10]} intensity={5} decay={0.2} />
+            <pointLight position={[-10, -10, -10]} intensity={3} color='blue' decay={0.2} />
+
+            {/* Camera */}
+            <OrthographicCamera makeDefault far={1000} near={-1000} position={[0, 0, 6]} zoom={200} />
+
+            {/* Phone Model */}
+            <PhoneModel position={[0, 0, 0]} scale={2.5} />
+
+            {/* Controls */}
+            <OrbitControls />
+          </Canvas>
+        </div>
         {/* Absolutely Positioned Transfer Cards */}
         <motion.div
           className={`${styles.transferCard} ${styles.sendingCard}`}

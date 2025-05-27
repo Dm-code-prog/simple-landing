@@ -47,17 +47,12 @@ export function PhoneModel(props) {
     }
   }, [screenMesh])
 
-  // const plainMaterial = useMemo(() => new THREE.MeshBasicMaterial({ color: 'black', side: THREE.DoubleSide }), [])
-
-  // Create a transparent material for the screen mesh to serve as a reference
-  const screenMaterial = useMemo(
-    () =>
-      new THREE.MeshBasicMaterial({
-        color: 'red',
-        side: THREE.DoubleSide,
-      }),
-    [],
-  )
+  const occludeGeometry = useMemo(() => {
+    if (nodes.Frame_Frame_0 && nodes.Frame_Mic_0) {
+      return [nodes.Frame_Frame_0, nodes.Frame_Mic_0]
+    }
+    return []
+  }, [nodes])
 
   return (
     <group {...props} dispose={null}>
@@ -68,18 +63,23 @@ export function PhoneModel(props) {
       <mesh visible={true} geometry={nodes.Body_Wallpaper_0.geometry}>
         <Html
           transform
-          // center
+          center
+          occlude={'blending'}
           wrapperClass='phone-screen-html'
           distanceFactor={0.5}
-          position={[0, 0, 0.01]}
-          rotation={[0, -Math.PI / 2, 0]}
+          position={[0, 0, -0.015]}
+          rotation={[0, Math.PI, 0]}
           scale={1}
-          sprite
+          style={{
+            transformOrigin: 'center center',
+          }}
+          // occlude={[nodes.Frame_Frame_0, nodes.Frame_Mic_0]}
+          // sprite
         >
           <div
             style={{
-              width: '240px',
-              height: '400px',
+              width: '375px',
+              height: '790px',
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               color: 'white',
               padding: '15px',
@@ -93,6 +93,7 @@ export function PhoneModel(props) {
               alignItems: 'center',
               boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: '60px',
               transformOrigin: 'center center',
             }}
           >

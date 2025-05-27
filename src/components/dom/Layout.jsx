@@ -28,6 +28,7 @@ const Layout = ({ children }) => {
           height: '100vh',
           pointerEvents: 'none',
         }}
+        className='scene'
         eventSource={ref}
         eventPrefix='client'
       />
