@@ -72,13 +72,27 @@ export default function Beta() {
           </motion.div>
         </div>
         {/* Direct Canvas implementation without Layout/Scene/View */}
-        <div style={{ width: '300px', height: '500px', zIndex: 1000, position: 'relative' }}>
+        <div style={{ width: '300px', height: '550px', zIndex: 1000, position: 'relative' }}>
           <Canvas
             camera={{ position: [0, 0, 6], zoom: 200, far: 1000, near: -1000 }}
             onCreated={(state) => {
               // Set renderer properties if needed
               state.gl.setClearColor('#000000', 0) // Transparent background
+
+              // Debug logging for Canvas setup
+              console.log('Canvas created with state:', state)
+
+              // Disable raycaster to prevent errors
+              if (state.raycaster) {
+                console.log('Configuring raycaster')
+                // Set a custom filter to avoid problematic objects
+                state.raycaster.filter = (object) => {
+                  // Only raycast against meshes that have geometry and aren't Html components
+                  return object.isMesh && object.geometry && !object.userData.isHtml
+                }
+              }
             }}
+            raycaster={{ enabled: false }} // Disable raycasting entirely
           >
             {/* Lighting */}
             <ambientLight intensity={0.5} />
