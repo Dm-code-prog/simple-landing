@@ -25,7 +25,6 @@ function Striplight(props) {
 export default function Beta() {
   return (
     <div className={styles.container}>
-      {/* Navigation */}
       <nav className={styles.nav}>
         <div className={styles.navContent}>
           <Link href='/' className={styles.logo}>
@@ -45,10 +44,8 @@ export default function Beta() {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <main className={styles.hero}>
         <div className={styles.heroContent}>
-          {/* Main Title */}
           <motion.div
             className={styles.heroText}
             initial={{ opacity: 0, y: 50 }}
@@ -64,7 +61,6 @@ export default function Beta() {
             </h1>
           </motion.div>
 
-          {/* Phone Mockup */}
           <motion.div
             className={styles.phoneContainer}
             initial={{ opacity: 0, scale: 0.8 }}
@@ -80,47 +76,25 @@ export default function Beta() {
             />
           </motion.div>
         </div>
-        {/* Direct Canvas implementation without Layout/Scene/View */}
         <div style={{ width: '300px', height: '550px', zIndex: 1000, position: 'relative' }}>
           <Canvas
             camera={{ position: [0, 0, 6], zoom: 200, far: 1000, near: -1000 }}
             onCreated={(state) => {
-              // Set renderer properties if needed
-              state.gl.setClearColor('#000000', 0) // Transparent background
-
-              // Debug logging for Canvas setup
-              console.log('Canvas created with state:', state)
-
-              // Disable raycaster to prevent errors
+              state.gl.setClearColor('#000000', 0)
               if (state.raycaster) {
-                console.log('Configuring raycaster')
-                // Set a custom filter to avoid problematic objects
                 state.raycaster.filter = (object) => {
-                  // Only raycast against meshes that have geometry and aren't Html components
                   return object.isMesh && object.geometry && !object.userData.isHtml
                 }
               }
             }}
-            raycaster={{ enabled: false }} // Disable raycasting entirely
+            raycaster={{ enabled: false }}
           >
-            {/* Lighting */}
-            {/* <ambientLight intensity={0.5} />
-            <pointLight position={[20, 30, 10]} intensity={5} decay={0.2} />
-            <pointLight position={[-10, -10, -10]} intensity={3} color='blue' decay={0.2} /> */}
             <Environment backgroundIntensity={0.5} preset='night' />
-            {/* <Striplight position={[10, 2, 0]} scale={[1, 3, 10]} />
-            <Striplight position={[-10, 2, 0]} scale={[1, 3, 10]} /> */}
-            {/* Camera */}
             <OrthographicCamera makeDefault far={1000} near={-1000} position={[0, 0, 6]} zoom={200} />
-            {/* <Lightformer position={[10, 2, 0]} scale={[1, 3, 10]} /> */}
-            {/* Phone Model */}
             <PhoneModel position={[0, 0, 0]} scale={2.5} />
-
-            {/* Controls */}
             <OrbitControls />
           </Canvas>
         </div>
-        {/* Absolutely Positioned Transfer Cards */}
         <motion.div
           className={`${styles.transferCard} ${styles.sendingCard}`}
           initial={{ opacity: 0, scale: 0.8, x: -100 }}
@@ -147,7 +121,6 @@ export default function Beta() {
           </div>
         </motion.div>
 
-        {/* Background Elements */}
         <div className={styles.backgroundImage}>
           <Image src={bgMetal} alt='Metal background' fill style={{ objectFit: 'cover' }} className={styles.bgImage} />
         </div>
@@ -158,10 +131,8 @@ export default function Beta() {
         </div>
       </main>
 
-      {/* Phone Identity Section */}
       <section className={styles.identitySection}>
         <div className={styles.identityContent}>
-          {/* Text Content */}
           <motion.div
             className={styles.identityText}
             initial={{ opacity: 0, x: -50 }}
@@ -182,7 +153,6 @@ export default function Beta() {
             </p>
           </motion.div>
 
-          {/* Phone Mockup */}
           <motion.div
             className={styles.identityPhoneContainer}
             initial={{ opacity: 0, x: 50 }}
@@ -200,7 +170,6 @@ export default function Beta() {
           </motion.div>
         </div>
 
-        {/* Background Elements */}
         <div className={styles.identityBackground}>
           <Image
             src={bgMetal2}
@@ -217,10 +186,8 @@ export default function Beta() {
         </div>
       </section>
 
-      {/* Money Sending Section */}
       <section className={styles.sendingSection}>
         <div className={styles.sendingContent}>
-          {/* Phone Mockup */}
           <motion.div
             className={styles.sendingPhoneContainer}
             initial={{ opacity: 0, x: -50 }}
@@ -236,7 +203,6 @@ export default function Beta() {
               className={styles.sendingPhoneImage}
             />
 
-            {/* Floating Feature Cards */}
             <motion.div
               className={`${styles.featureCard} ${styles.featureCard1}`}
               initial={{ opacity: 0, scale: 0.8, y: 30 }}
@@ -271,7 +237,6 @@ export default function Beta() {
             </motion.div>
           </motion.div>
 
-          {/* Text Content */}
           <motion.div
             className={styles.sendingText}
             initial={{ opacity: 0, x: 50 }}
@@ -329,7 +294,6 @@ export default function Beta() {
           </motion.div>
         </div>
 
-        {/* Background Elements */}
         <div className={styles.sendingBackground}>
           <Image
             src={bgMetal}
@@ -347,7 +311,6 @@ export default function Beta() {
         </div>
       </section>
 
-      {/* Team Section */}
       <section id='about-us' className={styles.teamSection}>
         <div className={styles.teamContent}>
           <motion.div
@@ -422,7 +385,6 @@ export default function Beta() {
           </div>
         </div>
 
-        {/* Background Elements */}
         <div className={styles.teamBackground}>
           <Image
             src={bgMetal2}
