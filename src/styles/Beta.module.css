@@ -975,6 +975,15 @@
     flex-direction: column;
     align-items: center;
   }
+
+  .teamMember {
+    padding: 32px 24px;
+  }
+
+  .linkedinLink {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1130,9 +1139,9 @@
 }
 
 .memberImage {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
+  width: 270px;
+  height: 270px;
+  border-radius: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1141,13 +1150,14 @@
     0 8px 32px rgba(0, 0, 0, 0.3),
     inset 0 2px 0 rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .memberImage::before {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 50%;
+  border-radius: 28px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -1155,6 +1165,10 @@
 
 .teamMember:hover .memberImage::before {
   opacity: 1;
+}
+
+.memberPhoto {
+  border-radius: 28px;
 }
 
 .memberInitials {
@@ -1182,6 +1196,59 @@
   margin: 0;
   z-index: 2;
   position: relative;
+}
+
+.socialOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.memberImage:hover .socialOverlay {
+  opacity: 1;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  transform: translateY(10px);
+}
+
+.memberImage:hover .socialLink {
+  transform: translateY(0);
+}
+
+.socialLink:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
 }
 
 /* Team Background */
@@ -1298,6 +1365,7 @@
   .memberImage {
     width: 120px;
     height: 120px;
+    border-radius: 20px;
   }
 
   .memberInitials {
@@ -1314,6 +1382,11 @@
 
   .teamMember {
     padding: 32px 24px;
+  }
+
+  .linkedinLink {
+    padding: 10px 20px;
+    font-size: 13px;
   }
 }
 
@@ -1335,8 +1408,9 @@
   }
 
   .memberImage {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
   }
 
   .memberInitials {
@@ -1354,5 +1428,10 @@
   .teamMember {
     padding: 24px 20px;
     gap: 16px;
+  }
+
+  .linkedinLink {
+    padding: 10px 20px;
+    font-size: 13px;
   }
 }

@@ -10,8 +10,9 @@ import phoneBookScreen from '@/images/screen-phonebook.png'
 import loginScreen from '@/images/login-screen.png'
 import sendingMoneyScreen from '@/images/sending-money-screen.png'
 import { Canvas } from '@react-three/fiber'
-import { Environment, Lightformer, OrbitControls, OrthographicCamera } from '@react-three/drei'
+import { Environment, OrbitControls, OrthographicCamera } from '@react-three/drei'
 import { PhoneModel } from '@/components/models/Phone'
+import TeamMembers from './TeamMembers'
 
 function Striplight(props) {
   return (
@@ -325,64 +326,7 @@ export default function Beta() {
             <p className={styles.teamSubtitle}>The great minds behind our work.</p>
           </motion.div>
 
-          <div className={styles.teamGrid}>
-            <motion.div
-              className={styles.teamMember}
-              initial={{ opacity: 0, scale: 0.8, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className={styles.memberImageContainer}>
-                <div
-                  className={styles.memberImage}
-                  style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
-                >
-                  <span className={styles.memberInitials}>DH</span>
-                </div>
-              </div>
-              <h3 className={styles.memberName}>Dylan de Heer</h3>
-              <p className={styles.memberRole}>Co-founder & Product Designer</p>
-            </motion.div>
-
-            <motion.div
-              className={styles.teamMember}
-              initial={{ opacity: 0, scale: 0.8, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
-              <div className={styles.memberImageContainer}>
-                <div
-                  className={styles.memberImage}
-                  style={{ background: 'linear-gradient(135deg, #74b9ff 0%, #0984e3 100%)' }}
-                >
-                  <span className={styles.memberInitials}>TE</span>
-                </div>
-              </div>
-              <h3 className={styles.memberName}>Thierry Emmery</h3>
-              <p className={styles.memberRole}>Co-founder & Product Designer</p>
-            </motion.div>
-
-            <motion.div
-              className={styles.teamMember}
-              initial={{ opacity: 0, scale: 0.8, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <div className={styles.memberImageContainer}>
-                <div
-                  className={styles.memberImage}
-                  style={{ background: 'linear-gradient(135deg, #fdcb6e 0%, #e17055 100%)' }}
-                >
-                  <span className={styles.memberInitials}>SF</span>
-                </div>
-              </div>
-              <h3 className={styles.memberName}>Sasha Filipchyk</h3>
-              <p className={styles.memberRole}>Product & Brand Designer</p>
-            </motion.div>
-          </div>
+          <TeamMembers />
         </div>
 
         <div className={styles.teamBackground}>
