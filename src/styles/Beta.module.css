@@ -4,6 +4,18 @@
   background: #000000;
   position: relative;
   overflow: hidden;
+  /* Force hardware acceleration for the entire page */
+  will-change: scroll-position;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Prevent scroll when mobile menu is open */
+.container.menuOpen {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
 
 /* Navigation */
@@ -13,16 +25,20 @@
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 20px 0;
+  padding: 16px 0;
   background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  /* Performance optimization */
+  will-change: backdrop-filter;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .navContent {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -35,24 +51,25 @@
 }
 
 .logo img {
-  width: 160px !important;
-  height: 36px !important;
-  max-width: 160px;
-  max-height: 36px;
+  width: 140px !important;
+  height: 32px !important;
+  max-width: 140px;
+  max-height: 32px;
 }
 
 .navLinks {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 24px;
 }
 
 .navLink {
   color: #ffffff;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 400;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
+  will-change: opacity;
 }
 
 .navLink:hover {
@@ -62,19 +79,92 @@
 .navButton {
   color: #ffffff;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
-  padding: 12px 24px;
+  padding: 10px 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  will-change: background, border-color;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .navButton:hover {
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Mobile Menu Button */
+.mobileMenuButton {
+  display: none;
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 200;
+  position: relative;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.mobileMenuButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  width: 24px;
+  height: 18px;
+  position: relative;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 1px;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: absolute;
+}
+
+.hamburger span:nth-child(1) {
+  top: 0;
+}
+
+.hamburger span:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hamburger span:nth-child(3) {
+  bottom: 0;
+}
+
+.hamburgerOpen span:nth-child(1) {
+  transform: rotate(45deg);
+  top: 50%;
+  margin-top: -1px;
+}
+
+.hamburgerOpen span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburgerOpen span:nth-child(3) {
+  transform: rotate(-45deg);
+  bottom: 50%;
+  margin-bottom: -1px;
+}
+
+/* Mobile Menu Logo - Hidden on desktop */
+.mobileMenuLogo {
+  display: none !important;
 }
 
 /* Hero Section */
@@ -86,7 +176,8 @@
   justify-content: flex-start;
   position: relative;
   padding: 120px 24px 120px;
-  margin-bottom: 100px;
+  margin-bottom: 60px;
+  overflow: hidden;
 }
 
 .heroContent {
@@ -145,20 +236,24 @@
     0 8px 32px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease;
   overflow: hidden;
-  z-index: 15;
+  z-index: 5;
+  /* Performance optimizations */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Specific positioning for each card */
 .sendingCard {
-  top: 400px;
-  left: 100px;
+  top: 320px;
+  left: 80px;
 }
 
 .receivingCard {
-  top: 500px;
-  right: 100px;
+  top: 420px;
+  right: 80px;
 }
 
 .transferCard::before {
@@ -179,12 +274,7 @@
 }
 
 .transferCard:hover {
-  transform: translateY(-5px);
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-5px) translateZ(0);
 }
 
 .cardContent {
@@ -333,96 +423,407 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .hero {
-    margin-bottom: 80px;
-    padding: 120px 24px 100px;
+  .nav {
+    padding: 12px 0;
   }
 
-  .heroTitle {
-    font-size: 80px;
+  .navContent {
+    padding: 0 16px;
   }
 
-  .phoneContainer {
-    margin-top: 40px;
+  .logo img {
+    width: 120px !important;
+    height: 28px !important;
   }
 
-  .phoneImage {
-    max-width: 450px;
-    width: 90vw;
-  }
-
-  .sendingCard {
-    top: 300px;
-    left: 20px;
-    min-width: 200px;
-    padding: 24px;
-  }
-
-  .receivingCard {
-    top: 450px;
-    right: 20px;
-    min-width: 200px;
-    padding: 24px;
-  }
-
-  .cardAmount {
-    font-size: 36px;
+  .mobileMenuButton {
+    display: block;
   }
 
   .navLinks {
-    gap: 16px;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: linear-gradient(135deg, 
+      rgba(0, 0, 0, 0.95) 0%, 
+      rgba(0, 0, 0, 0.98) 25%,
+      rgba(20, 20, 40, 0.95) 50%,
+      rgba(0, 0, 0, 0.98) 75%,
+      rgba(0, 0, 0, 0.95) 100%
+    ) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 40px !important;
+    transform: translateX(-100%) !important;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    z-index: 150 !important;
+    opacity: 0 !important;
+    padding: 120px 40px 80px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
-  .navLink,
+  .navLinks::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(102, 126, 234, 0.1) 0%,
+      rgba(118, 75, 162, 0.05) 30%,
+      rgba(0, 0, 0, 0.1) 70%,
+      transparent 100%
+    );
+    animation: float 8s ease-in-out infinite;
+    z-index: 1;
+  }
+
+  .navLinks::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(255, 255, 255, 0.03) 90deg,
+      transparent 180deg,
+      rgba(255, 255, 255, 0.02) 270deg,
+      transparent 360deg
+    );
+    animation: rotate 20s linear infinite;
+    z-index: 1;
+  }
+
+  .navLinksOpen {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+  }
+
+  .navLinks > * {
+    position: relative;
+    z-index: 10;
+  }
+
+  .mobileMenuLogo {
+    position: absolute !important;
+    top: 20px !important;
+    left: 20px !important;
+    z-index: 200 !important;
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    transition: opacity 0.3s ease 0.2s !important;
+    display: block !important;
+    text-decoration: none !important;
+  }
+
+  .mobileMenuLogo img {
+    width: 120px !important;
+    height: 28px !important;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3)) !important;
+    transition: transform 0.2s ease !important;
+  }
+
+  .mobileMenuLogo:hover img {
+    transform: scale(1.05) !important;
+  }
+
+  .navLink {
+    font-size: 22px !important;
+    font-weight: 500 !important;
+    padding: 16px 32px !important;
+    border-radius: 16px !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    min-width: 200px !important;
+    text-align: center !important;
+    z-index: 10 !important;
+    display: block !important;
+  }
+
+  .navLinksOpen .navLink {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    animation: slideInUp 0.6s ease forwards !important;
+  }
+
+  .navLinksOpen .navLink:nth-child(2) { animation-delay: 0.1s !important; }
+  .navLinksOpen .navLink:nth-child(3) { animation-delay: 0.2s !important; }
+  .navLinksOpen .navLink:nth-child(4) { animation-delay: 0.3s !important; }
+
+  .navLink:not(.navLinksOpen .navLink) {
+    transform: translateY(30px) !important;
+    opacity: 0 !important;
+  }
+
+  .navLink::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
+    transition: left 0.5s ease;
+  }
+
+  .navLink:hover::before {
+    left: 100%;
+  }
+
+  .navLink:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+  }
+
   .navButton {
-    font-size: 14px;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    padding: 16px 40px !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 50px !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow: 
+      0 8px 32px rgba(102, 126, 234, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    z-index: 10 !important;
+    display: block !important;
+    text-decoration: none !important;
+  }
+
+  .navLinksOpen .navButton {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    animation: slideInUp 0.6s ease 0.4s forwards !important;
+  }
+
+  .navButton:not(.navLinksOpen .navButton) {
+    transform: translateY(30px) !important;
+    opacity: 0 !important;
+  }
+
+  .navButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 100%
+    );
+    transition: left 0.5s ease;
+  }
+
+  .navButton:hover::before {
+    left: 100%;
+  }
+
+  .navButton:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 1) 0%, rgba(118, 75, 162, 1) 100%) !important;
+    transform: translateY(-3px) scale(1.05) !important;
+    box-shadow: 
+      0 12px 40px rgba(102, 126, 234, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  }
+
+  @keyframes slideInUp {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .hero {
+    margin-bottom: 50px;
+    padding: 100px 16px 100px;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .heroContent {
+    gap: 60px;
+    padding-bottom: 80px;
+  }
+
+  .heroTitle {
+    font-size: 64px;
+    line-height: 1.05;
+  }
+
+  .phoneContainer {
+    margin-top: 30px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .phoneImage {
+    max-width: 320px;
+    width: 80vw;
+  }
+
+  .sendingCard {
+    top: 160px;
+    left: -20px;
+    min-width: 140px;
+    padding: 14px;
+    transform: scale(0.85);
+    z-index: 3;
+  }
+
+  .receivingCard {
+    top: 220px;
+    right: -20px;
+    min-width: 140px;
+    padding: 14px;
+    transform: scale(0.85);
+    z-index: 3;
+  }
+
+  .cardAmount {
+    font-size: 24px;
+  }
+
+  .cardLabel {
+    font-size: 11px;
   }
 }
 
 @media (max-width: 480px) {
+  .nav {
+    padding: 10px 0;
+  }
+
+  .navContent {
+    padding: 0 12px;
+  }
+
+  .logo img {
+    width: 100px !important;
+    height: 24px !important;
+  }
+
+  .mobileMenuButton {
+    display: block;
+    padding: 6px;
+  }
+
+  .hamburger {
+    width: 20px;
+    height: 16px;
+  }
+
+  .navLinks {
+    gap: 32px !important;
+    padding: 70px 24px 32px !important;
+  }
+
+  .mobileMenuLogo {
+    top: 16px !important;
+    left: 16px !important;
+  }
+
+  .mobileMenuLogo img {
+    width: 100px !important;
+    height: 24px !important;
+  }
+
+  .navLink {
+    font-size: 18px !important;
+    padding: 14px 24px !important;
+    min-width: 180px !important;
+  }
+
+  .navButton {
+    font-size: 16px !important;
+    padding: 14px 32px !important;
+  }
+
   .hero {
-    margin-bottom: 60px;
-    padding: 100px 24px 80px;
+    margin-bottom: 40px;
+    padding: 80px 12px 80px;
+  }
+
+  .heroContent {
+    gap: 40px;
+    padding-bottom: 60px;
   }
 
   .heroTitle {
-    font-size: 60px;
+    font-size: 48px;
+    line-height: 1.1;
   }
 
   .phoneImage {
-    max-width: 350px;
+    max-width: 280px;
     width: 85vw;
   }
 
   .sendingCard {
-    top: 250px;
-    left: 10px;
-    min-width: 180px;
-    padding: 20px;
+    top: 140px;
+    left: -30px;
+    min-width: 120px;
+    padding: 12px;
+    transform: scale(0.75);
+    z-index: 3;
   }
 
   .receivingCard {
-    top: 380px;
-    right: 10px;
-    min-width: 180px;
-    padding: 20px;
+    top: 190px;
+    right: -30px;
+    min-width: 120px;
+    padding: 12px;
+    transform: scale(0.75);
+    z-index: 3;
   }
 
   .cardAmount {
-    font-size: 32px;
+    font-size: 20px;
   }
 
   .cardLabel {
-    font-size: 14px;
-  }
-
-  .navLinks {
-    gap: 12px;
-  }
-
-  .navButton {
-    padding: 10px 20px;
-    font-size: 14px;
+    font-size: 10px;
   }
 }
 
@@ -434,8 +835,13 @@
   justify-content: center;
   position: relative;
   padding: 120px 24px;
-  margin-top: 100px;
+  margin-top: 60px;
   overflow: hidden;
+  background: linear-gradient(to bottom, 
+    rgba(0, 0, 0, 1) 0%, 
+    rgba(0, 0, 0, 0.98) 50%, 
+    rgba(0, 0, 0, 0.95) 100%
+  );
 }
 
 .identityContent {
@@ -575,45 +981,64 @@
 
 @media (max-width: 768px) {
   .identitySection {
-    margin-top: 80px;
-    padding: 100px 24px;
+    margin-top: 40px;
+    padding: 80px 16px;
   }
 
   .identityContent {
     flex-direction: column;
-    gap: 60px;
+    gap: 50px;
     text-align: center;
   }
 
   .identityTitle {
-    font-size: 80px;
+    font-size: 64px;
+    line-height: 1.05;
   }
 
   .identityDescription {
-    font-size: 18px;
+    font-size: 17px;
+    line-height: 1.5;
   }
 
   .identityPhoneImage {
-    width: 300px;
+    width: 280px;
+  }
+
+  .sendingFeatures {
+    gap: 20px;
+  }
+
+  .feature {
+    align-items: flex-start;
+    text-align: left;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  .featureBullet {
+    flex-shrink: 0;
+    margin-right: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .identitySection {
-    padding: 80px 24px;
-    margin-top: 60px;
+    padding: 60px 12px;
+    margin-top: 30px;
   }
 
   .identityContent {
-    gap: 40px;
+    gap: 30px;
   }
 
   .identityTitle {
-    font-size: 60px;
+    font-size: 48px;
   }
 
   .identityDescription {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .identityDescription :global(br) {
@@ -621,20 +1046,33 @@
   }
 
   .identityPhoneImage {
-    width: 250px;
+    width: 220px;
+  }
+
+  .sendingFeatures {
+    gap: 16px;
+  }
+
+  .feature {
+    min-height: 44px;
   }
 }
 
-/* Money Sending Section */
+/* Money Sending Section - Reverted to Original */
 .sendingSection {
   min-height: 100vh;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 120px 24px;
+  padding: 75px 24px;
   margin-bottom: 100px;
   overflow: hidden;
+  background: linear-gradient(to bottom, 
+    rgba(0, 0, 0, 0.95) 0%, 
+    rgba(0, 0, 0, 0.98) 50%, 
+    rgba(0, 0, 0, 1) 100%
+  );
 }
 
 .sendingContent {
@@ -679,9 +1117,13 @@
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease;
   animation: float 6s ease-in-out infinite;
   z-index: 20;
+  /* Performance optimizations */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .featureCard::before {
@@ -697,7 +1139,7 @@
 }
 
 .featureCard:hover {
-  transform: translateY(-5px) scale(1.05);
+  transform: translateY(-3px) translateZ(0);
   box-shadow:
     0 15px 40px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -814,7 +1256,7 @@
   box-shadow: 0 0 12px rgba(102, 126, 234, 0.5);
 }
 
-/* Background Elements */
+/* Background Elements - Reverted to Original */
 .sendingBackground {
   position: absolute;
   top: 0;
@@ -931,31 +1373,35 @@
 
 @media (max-width: 768px) {
   .sendingSection {
-    padding: 80px 24px;
+    padding: 60px 16px;
+    margin-bottom: 50px;
   }
 
   .sendingContent {
     flex-direction: column;
-    gap: 60px;
+    gap: 50px;
     text-align: center;
   }
 
   .sendingTitle {
-    font-size: 56px;
+    font-size: 48px;
+    line-height: 1.1;
   }
 
   .sendingDescription {
-    font-size: 18px;
+    font-size: 17px;
+    line-height: 1.5;
   }
 
   .sendingPhoneImage {
-    width: 280px;
+    width: 240px;
   }
 
   .featureCard {
     position: relative;
-    margin: 10px;
+    margin: 6px;
     animation: none;
+    transform: none !important;
   }
 
   .featureCard1,
@@ -967,7 +1413,7 @@
     right: auto;
     bottom: auto;
     display: inline-flex;
-    margin: 8px;
+    margin: 6px;
   }
 
   .sendingPhoneContainer {
@@ -976,28 +1422,36 @@
     align-items: center;
   }
 
+  .sendingFeatures {
+    gap: 16px;
+  }
+
   .teamMember {
-    padding: 32px 24px;
+    padding: 24px 16px;
   }
 
   .linkedinLink {
-    padding: 10px 20px;
-    font-size: 13px;
+    padding: 8px 16px;
+    font-size: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .sendingSection {
-    padding: 60px 16px;
-    margin-bottom: 60px;
+    padding: 40px 12px;
+    margin-bottom: 40px;
+  }
+
+  .sendingContent {
+    gap: 30px;
   }
 
   .sendingTitle {
-    font-size: 42px;
+    font-size: 36px;
   }
 
   .sendingDescription {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .sendingDescription br {
@@ -1005,21 +1459,26 @@
   }
 
   .sendingPhoneImage {
-    width: 240px;
+    width: 200px;
   }
 
   .featureCard {
-    padding: 12px 16px;
+    padding: 10px 14px;
+    margin: 4px;
   }
 
   .featureText {
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .featureIcon {
-    font-size: 20px;
-    width: 28px;
-    height: 28px;
+    font-size: 18px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .sendingFeatures {
+    gap: 12px;
   }
 }
 
@@ -1032,7 +1491,14 @@
   justify-content: center;
   position: relative;
   padding: 120px 24px;
-  background: #000000;
+  background: linear-gradient(180deg, 
+    rgba(7, 12, 22, 0.95) 0%, 
+    rgba(15, 20, 31, 0.98) 20%, 
+    rgba(30, 27, 75, 0.92) 40%, 
+    rgba(45, 35, 85, 0.95) 60%, 
+    rgba(15, 20, 31, 0.98) 80%, 
+    rgba(7, 12, 22, 1) 100%
+  );
   overflow: hidden;
 }
 
@@ -1085,10 +1551,14 @@
 
 .teamGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 60px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
   width: 100%;
   max-width: 1200px;
+  /* Performance optimizations */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .teamMember {
@@ -1096,41 +1566,44 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 24px;
-  padding: 40px 32px;
+  gap: 20px;
+  padding: 32px 24px;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 32px;
-  transition: all 0.4s ease;
+  border-radius: 24px;
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
+  /* Performance optimizations */
+  will-change: transform, background, border-color;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .teamMember::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.1) 0%,
     rgba(255, 255, 255, 0.05) 50%,
     rgba(255, 255, 255, 0.02) 100%
   );
-  border-radius: 32px;
+  border-radius: 24px;
   pointer-events: none;
+  z-index: 1;
 }
 
 .teamMember:hover {
-  transform: translateY(-10px);
+  transform: translateY(-8px) translateZ(0);
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.2);
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .memberImageContainer {
@@ -1139,9 +1612,9 @@
 }
 
 .memberImage {
-  width: 270px;
-  height: 270px;
-  border-radius: 28px;
+  width: 160px;
+  height: 160px;
+  border-radius: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1149,18 +1622,23 @@
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.3),
     inset 0 2px 0 rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease;
   overflow: hidden;
+  /* Performance optimizations */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .memberImage::before {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 28px;
+  border-radius: 24px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
+  will-change: opacity;
 }
 
 .teamMember:hover .memberImage::before {
@@ -1168,11 +1646,11 @@
 }
 
 .memberPhoto {
-  border-radius: 28px;
+  border-radius: 24px;
 }
 
 .memberInitials {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   color: #ffffff;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -1181,7 +1659,7 @@
 }
 
 .memberName {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
   color: #ffffff;
   margin: 0;
@@ -1190,7 +1668,7 @@
 }
 
 .memberRole {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.7);
   margin: 0;
@@ -1206,13 +1684,17 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(8px);
-  border-radius: 28px;
+  border-radius: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: opacity 0.2s ease;
   z-index: 10;
+  /* Performance optimizations */
+  will-change: opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .memberImage:hover .socialOverlay {
@@ -1229,26 +1711,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   color: #ffffff;
   text-decoration: none;
-  transition: all 0.3s ease;
-  transform: translateY(10px);
+  transition: all 0.2s ease;
+  transform: translateY(10px) translateZ(0);
+  /* Performance optimizations */
+  will-change: transform, background, border-color;
+  backface-visibility: hidden;
 }
 
 .memberImage:hover .socialLink {
-  transform: translateY(0);
+  transform: translateY(0) translateZ(0);
 }
 
 .socialLink:hover {
   background: rgba(255, 255, 255, 0.25);
   border-color: rgba(255, 255, 255, 0.4);
-  transform: scale(1.1);
+  transform: scale(1.1) translateZ(0);
 }
 
 /* Team Background */
@@ -1259,7 +1744,7 @@
   right: 0;
   bottom: 0;
   z-index: 1;
-  opacity: 0.3;
+  opacity: 0.5;
 }
 
 .teamBackground::before {
@@ -1269,12 +1754,19 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.9) 100%);
+  background: linear-gradient(180deg, 
+    rgba(7, 12, 22, 0.9) 0%, 
+    rgba(15, 20, 31, 0.7) 20%, 
+    rgba(30, 27, 75, 0.5) 40%, 
+    rgba(45, 35, 85, 0.6) 60%, 
+    rgba(15, 20, 31, 0.7) 80%, 
+    rgba(7, 12, 22, 0.9) 100%
+  );
   z-index: 2;
 }
 
 .teamBgImage {
-  filter: blur(2px) brightness(0.4);
+  filter: blur(2px) brightness(0.6) contrast(1.1) saturate(1.2);
 }
 
 .teamGradients {
@@ -1289,44 +1781,58 @@
 
 .teamGradient1 {
   position: absolute;
-  top: 10%;
-  left: 10%;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(102, 126, 234, 0.2) 0%, transparent 70%);
+  top: 5%;
+  left: 5%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, rgba(139, 92, 246, 0.15) 40%, transparent 70%);
   border-radius: 50%;
-  filter: blur(60px);
-  animation: float 8s ease-in-out infinite;
+  filter: blur(80px);
+  animation: float 10s ease-in-out infinite;
 }
 
 .teamGradient2 {
   position: absolute;
-  bottom: 20%;
-  right: 10%;
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, rgba(116, 185, 255, 0.15) 0%, transparent 70%);
+  bottom: 10%;
+  right: 5%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.2) 0%, rgba(251, 146, 60, 0.12) 50%, transparent 70%);
   border-radius: 50%;
-  filter: blur(50px);
-  animation: float 10s ease-in-out infinite reverse;
+  filter: blur(70px);
+  animation: float 12s ease-in-out infinite reverse;
 }
 
 .teamGradient3 {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 40%;
+  left: 60%;
   transform: translate(-50%, -50%);
-  width: 600px;
-  height: 300px;
-  background: radial-gradient(ellipse, rgba(253, 203, 110, 0.1) 0%, transparent 70%);
-  filter: blur(80px);
-  animation: float 12s ease-in-out infinite;
+  width: 700px;
+  height: 350px;
+  background: radial-gradient(ellipse, rgba(59, 130, 246, 0.18) 0%, rgba(37, 99, 235, 0.1) 60%, transparent 80%);
+  filter: blur(100px);
+  animation: float 14s ease-in-out infinite;
+}
+
+/* Additional floating gradient for more depth */
+.teamGradient4 {
+  position: absolute;
+  top: 70%;
+  left: 15%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, rgba(219, 39, 119, 0.08) 50%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: float 16s ease-in-out infinite reverse;
 }
 
 /* Team Responsive Design */
 @media (max-width: 1200px) {
   .teamGrid {
-    gap: 40px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
     max-width: 900px;
   }
 
@@ -1339,9 +1845,17 @@
   }
 }
 
+@media (max-width: 1024px) {
+  .teamGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    max-width: 600px;
+  }
+}
+
 @media (max-width: 768px) {
   .teamSection {
-    padding: 80px 24px;
+    padding: 80px 16px;
   }
 
   .teamContent {
@@ -1349,13 +1863,12 @@
   }
 
   .teamGrid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    max-width: 400px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
   }
 
   .teamTitle {
-    font-size: 60px;
+    font-size: 80px;
   }
 
   .teamSubtitle {
@@ -1365,38 +1878,46 @@
   .memberImage {
     width: 120px;
     height: 120px;
-    border-radius: 20px;
   }
 
   .memberInitials {
-    font-size: 24px;
+    font-size: 36px;
   }
 
   .memberName {
-    font-size: 24px;
+    font-size: 18px;
   }
 
   .memberRole {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .teamMember {
-    padding: 32px 24px;
+    padding: 20px 16px;
   }
 
   .linkedinLink {
-    padding: 10px 20px;
-    font-size: 13px;
+    padding: 6px 12px;
+    font-size: 11px;
   }
 }
 
 @media (max-width: 480px) {
   .teamSection {
-    padding: 60px 16px;
+    padding: 60px 12px;
+  }
+
+  .teamContent {
+    gap: 40px;
+  }
+
+  .teamGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .teamTitle {
-    font-size: 48px;
+    font-size: 60px;
   }
 
   .teamSubtitle {
@@ -1408,30 +1929,28 @@
   }
 
   .memberImage {
-    width: 120px;
-    height: 120px;
-    border-radius: 20px;
+    width: 100px;
+    height: 100px;
   }
 
   .memberInitials {
-    font-size: 20px;
+    font-size: 30px;
   }
 
   .memberName {
-    font-size: 20px;
+    font-size: 16px;
   }
 
   .memberRole {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .teamMember {
-    padding: 24px 20px;
-    gap: 16px;
+    padding: 16px 12px;
   }
 
   .linkedinLink {
-    padding: 10px 20px;
-    font-size: 13px;
+    padding: 6px 10px;
+    font-size: 10px;
   }
 }

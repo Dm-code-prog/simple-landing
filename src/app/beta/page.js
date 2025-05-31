@@ -3,15 +3,16 @@
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import styles from '@/styles/Beta.module.css'
 import bgMetal from '@/images/bg-metal.png'
 import bgMetal2 from '@/images/bg-metal-2.jpg'
 import phoneBookScreen from '@/images/screen-phonebook.png'
 import loginScreen from '@/images/login-screen.png'
 import sendingMoneyScreen from '@/images/sending-money-screen.png'
-import { Canvas } from '@react-three/fiber'
-import { Environment, OrbitControls, OrthographicCamera } from '@react-three/drei'
-import { PhoneModel } from '@/components/models/Phone'
+// import { Canvas } from '@react-three/fiber'
+// import { Environment, OrbitControls, OrthographicCamera } from '@react-three/drei'
+// import { PhoneModel } from '@/components/models/Phone'
 import TeamMembers from './TeamMembers'
 
 function Striplight(props) {
@@ -23,25 +24,122 @@ function Striplight(props) {
   )
 }
 
+// Optimized animation variants for crystal smooth performance
+const fadeInUp = {
+  hidden: { 
+    opacity: 0, 
+    y: 40,
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      type: "tween",
+      duration: 0.8,
+      ease: [0.25, 0.46, 0.45, 0.94]
+    }
+  }
+}
+
+const fadeInScale = {
+  hidden: { 
+    opacity: 0, 
+    scale: 0.95,
+  },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: {
+      type: "tween",
+      duration: 0.7,
+      ease: [0.25, 0.46, 0.45, 0.94]
+    }
+  }
+}
+
+const slideInLeft = {
+  hidden: { 
+    opacity: 0, 
+    x: -60,
+  },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: {
+      type: "tween",
+      duration: 0.8,
+      ease: [0.25, 0.46, 0.45, 0.94]
+    }
+  }
+}
+
+const slideInRight = {
+  hidden: { 
+    opacity: 0, 
+    x: 60,
+  },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: {
+      type: "tween",
+      duration: 0.8,
+      ease: [0.25, 0.46, 0.45, 0.94]
+    }
+  }
+}
+
 export default function Beta() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+
+    // Cleanup function to restore scroll when component unmounts
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [mobileMenuOpen])
+
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${mobileMenuOpen ? styles.menuOpen : ''}`}>
       <nav className={styles.nav}>
         <div className={styles.navContent}>
           <Link href='/' className={styles.logo}>
             <Image src='/logo.svg' alt='Simple' width={80} height={18} />
           </Link>
-          <div className={styles.navLinks}>
-            <a href='#how-it-works' className={styles.navLink}>
+          
+          <div className={`${styles.navLinks} ${mobileMenuOpen ? styles.navLinksOpen : ''}`}>
+            <Link href='/' className={styles.mobileMenuLogo} onClick={() => setMobileMenuOpen(false)}>
+              <Image src='/logo.svg' alt='Simple' width={120} height={28} />
+            </Link>
+            <a href='#how-it-works' className={styles.navLink} onClick={() => setMobileMenuOpen(false)}>
               How it works
             </a>
-            <a href='#about-us' className={styles.navLink}>
-              About Us
+            <a href='#team' className={styles.navLink} onClick={() => setMobileMenuOpen(false)}>
+              Team
             </a>
-            <a href='#get-app' className={styles.navButton}>
+            <a href='#get-app' className={styles.navButton} onClick={() => setMobileMenuOpen(false)}>
               Get App
             </a>
           </div>
+
+          <button 
+            className={styles.mobileMenuButton}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+          >
+            <span className={`${styles.hamburger} ${mobileMenuOpen ? styles.hamburgerOpen : ''}`}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
         </div>
       </nav>
 
@@ -49,9 +147,14 @@ export default function Beta() {
         <div className={styles.heroContent}>
           <motion.div
             className={styles.heroText}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={fadeInUp}
+            initial="hidden"
+            animate="visible"
+            style={{ 
+              willChange: 'transform, opacity',
+              backfaceVisibility: 'hidden',
+              transform: 'translateZ(0)'
+            }}
           >
             <h1 className={styles.heroTitle}>
               Simple crypto
@@ -64,9 +167,15 @@ export default function Beta() {
 
           <motion.div
             className={styles.phoneContainer}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            variants={fadeInScale}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.3 }}
+            style={{ 
+              willChange: 'transform, opacity',
+              backfaceVisibility: 'hidden',
+              transform: 'translateZ(0)'
+            }}
           >
             <Image
               src={phoneBookScreen}
@@ -74,10 +183,12 @@ export default function Beta() {
               width={300}
               height={600}
               className={styles.phoneImage}
+              priority
+              quality={90}
             />
           </motion.div>
         </div>
-        <div style={{ width: '300px', height: '550px', zIndex: 1000, position: 'relative' }}>
+        {/* <div style={{ width: '300px', height: '550px', zIndex: 1000, position: 'relative' }}>
           <Canvas
             camera={{ position: [0, 0, 6], zoom: 200, far: 1000, near: -1000 }}
             onCreated={(state) => {
@@ -95,12 +206,18 @@ export default function Beta() {
             <PhoneModel position={[0, 0, 0]} scale={2.5} />
             <OrbitControls />
           </Canvas>
-        </div>
+        </div> */}
         <motion.div
           className={`${styles.transferCard} ${styles.sendingCard}`}
-          initial={{ opacity: 0, scale: 0.8, x: -100 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          variants={slideInLeft}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.5 }}
+          style={{ 
+            willChange: 'transform, opacity',
+            backfaceVisibility: 'hidden',
+            transform: 'translateZ(0)'
+          }}
         >
           <div className={styles.cardContent}>
             <span className={styles.cardLabel}>You sent Inna</span>
@@ -111,9 +228,15 @@ export default function Beta() {
 
         <motion.div
           className={`${styles.transferCard} ${styles.receivingCard}`}
-          initial={{ opacity: 0, scale: 0.8, x: 100 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
+          variants={slideInRight}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.6 }}
+          style={{ 
+            willChange: 'transform, opacity',
+            backfaceVisibility: 'hidden',
+            transform: 'translateZ(0)'
+          }}
         >
           <div className={styles.cardContent}>
             <span className={styles.cardLabel}>Gavril sent you</span>
@@ -136,10 +259,15 @@ export default function Beta() {
         <div className={styles.identityContent}>
           <motion.div
             className={styles.identityText}
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            variants={slideInLeft}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            style={{ 
+              willChange: 'transform, opacity',
+              backfaceVisibility: 'hidden',
+              transform: 'translateZ(0)'
+            }}
           >
             <h2 className={styles.identityTitle}>
               Phone
@@ -156,10 +284,16 @@ export default function Beta() {
 
           <motion.div
             className={styles.identityPhoneContainer}
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
+            variants={slideInRight}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ delay: 0.2 }}
+            style={{ 
+              willChange: 'transform, opacity',
+              backfaceVisibility: 'hidden',
+              transform: 'translateZ(0)'
+            }}
           >
             <Image
               src={loginScreen}
@@ -167,6 +301,7 @@ export default function Beta() {
               width={320}
               height={640}
               className={styles.identityPhoneImage}
+              quality={85}
             />
           </motion.div>
         </div>
@@ -191,10 +326,15 @@ export default function Beta() {
         <div className={styles.sendingContent}>
           <motion.div
             className={styles.sendingPhoneContainer}
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            variants={slideInLeft}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            style={{ 
+              willChange: 'transform, opacity',
+              backfaceVisibility: 'hidden',
+              transform: 'translateZ(0)'
+            }}
           >
             <Image
               src={sendingMoneyScreen}
@@ -202,14 +342,25 @@ export default function Beta() {
               width={350}
               height={700}
               className={styles.sendingPhoneImage}
+              quality={85}
             />
 
             <motion.div
               className={`${styles.featureCard} ${styles.featureCard1}`}
-              initial={{ opacity: 0, scale: 0.8, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ 
+                type: "tween",
+                duration: 0.6, 
+                delay: 0.3,
+                ease: [0.25, 0.46, 0.45, 0.94]
+              }}
               viewport={{ once: true }}
+              style={{ 
+                willChange: 'transform, opacity',
+                backfaceVisibility: 'hidden',
+                transform: 'translateZ(0)'
+              }}
             >
               <div className={styles.featureIcon}>⚡</div>
               <span className={styles.featureText}>No Gas Fees</span>
@@ -217,10 +368,20 @@ export default function Beta() {
 
             <motion.div
               className={`${styles.featureCard} ${styles.featureCard2}`}
-              initial={{ opacity: 0, scale: 0.8, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ 
+                type: "tween",
+                duration: 0.6, 
+                delay: 0.4,
+                ease: [0.25, 0.46, 0.45, 0.94]
+              }}
               viewport={{ once: true }}
+              style={{ 
+                willChange: 'transform, opacity',
+                backfaceVisibility: 'hidden',
+                transform: 'translateZ(0)'
+              }}
             >
               <div className={styles.featureIcon}>🔗</div>
               <span className={styles.featureText}>No Blockchain Complexity</span>
@@ -228,10 +389,20 @@ export default function Beta() {
 
             <motion.div
               className={`${styles.featureCard} ${styles.featureCard3}`}
-              initial={{ opacity: 0, scale: 0.8, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ 
+                type: "tween",
+                duration: 0.6, 
+                delay: 0.5,
+                ease: [0.25, 0.46, 0.45, 0.94]
+              }}
               viewport={{ once: true }}
+              style={{ 
+                willChange: 'transform, opacity',
+                backfaceVisibility: 'hidden',
+                transform: 'translateZ(0)'
+              }}
             >
               <div className={styles.featureIcon}>✨</div>
               <span className={styles.featureText}>Just 3 Clicks</span>
@@ -240,16 +411,27 @@ export default function Beta() {
 
           <motion.div
             className={styles.sendingText}
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
+            variants={slideInRight}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ delay: 0.2 }}
+            style={{ 
+              willChange: 'transform, opacity',
+              backfaceVisibility: 'hidden',
+              transform: 'translateZ(0)'
+            }}
           >
             <motion.h2
               className={styles.sendingTitle}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ 
+                type: "tween",
+                duration: 0.6, 
+                delay: 0.4,
+                ease: [0.25, 0.46, 0.45, 0.94]
+              }}
               viewport={{ once: true }}
             >
               Send money to
@@ -263,7 +445,12 @@ export default function Beta() {
               className={styles.sendingDescription}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              transition={{ 
+                type: "tween",
+                duration: 0.6, 
+                delay: 0.5,
+                ease: [0.25, 0.46, 0.45, 0.94]
+              }}
               viewport={{ once: true }}
             >
               Forget about blockchain complexity, gas fees, and
@@ -276,7 +463,12 @@ export default function Beta() {
               className={styles.sendingFeatures}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
+              transition={{ 
+                type: "tween",
+                duration: 0.6, 
+                delay: 0.6,
+                ease: [0.25, 0.46, 0.45, 0.94]
+              }}
               viewport={{ once: true }}
             >
               <div className={styles.feature}>
@@ -312,17 +504,22 @@ export default function Beta() {
         </div>
       </section>
 
-      <section id='about-us' className={styles.teamSection}>
+      <section id='team' className={styles.teamSection}>
         <div className={styles.teamContent}>
           <motion.div
             className={styles.teamHeader}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            style={{ 
+              willChange: 'transform, opacity',
+              backfaceVisibility: 'hidden',
+              transform: 'translateZ(0)'
+            }}
           >
             <span className={styles.teamSectionLabel}>Family</span>
-            <h2 className={styles.teamTitle}>People</h2>
+            <h2 className={styles.teamTitle}>Team</h2>
             <p className={styles.teamSubtitle}>The great minds behind our work.</p>
           </motion.div>
 
@@ -342,6 +539,7 @@ export default function Beta() {
           <div className={styles.teamGradient1}></div>
           <div className={styles.teamGradient2}></div>
           <div className={styles.teamGradient3}></div>
+          <div className={styles.teamGradient4}></div>
         </div>
       </section>
     </div>

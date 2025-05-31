@@ -40,17 +40,73 @@ const teamMembersData = [
   }
 ]
 
+// Optimized animation variants for crystal smooth performance
+const containerVariants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  }
+}
+
+const cardVariants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.8,
+    y: 60,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      type: "tween",
+      duration: 0.8,
+      ease: [0.25, 0.46, 0.45, 0.94], // Custom easing for smoothness
+    }
+  }
+}
+
 export default function TeamMembers() {
   return (
-    <div className={styles.teamGrid}>
+    <motion.div 
+      className={styles.teamGrid}
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      style={{ 
+        willChange: 'transform, opacity',
+        backfaceVisibility: 'hidden',
+        transform: 'translateZ(0)' // Force hardware acceleration
+      }}
+    >
       {teamMembersData.map((member, index) => (
         <motion.div
           key={member.id}
           className={styles.teamMember}
-          initial={{ opacity: 0, scale: 0.8, y: 30 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 + (index * 0.2) }}
-          viewport={{ once: true }}
+          variants={cardVariants}
+          whileHover={{ 
+            scale: 1.03,
+            y: -8,
+            transition: { 
+              type: "tween", 
+              duration: 0.3,
+              ease: "easeOut"
+            }
+          }}
+          style={{ 
+            willChange: 'transform',
+            backfaceVisibility: 'hidden',
+            transform: 'translateZ(0)' // Force hardware acceleration
+          }}
         >
           <div className={styles.memberImageContainer}>
             <div className={styles.memberImage}>
@@ -60,6 +116,8 @@ export default function TeamMembers() {
                 fill
                 style={{ objectFit: 'cover' }}
                 className={styles.memberPhoto}
+                priority={index < 2} // Prioritize first two images
+                quality={85}
               />
               <div className={styles.socialOverlay}>
                 <div className={styles.socialLinks}>
@@ -91,10 +149,24 @@ export default function TeamMembers() {
               </div>
             </div>
           </div>
-          <h3 className={styles.memberName}>{member.name}</h3>
-          <p className={styles.memberRole}>{member.role}</p>
+          <motion.h3 
+            className={styles.memberName}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
+          >
+            {member.name}
+          </motion.h3>
+          <motion.p 
+            className={styles.memberRole}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            {member.role}
+          </motion.p>
         </motion.div>
       ))}
-    </div>
+    </motion.div>
   )
 } 
