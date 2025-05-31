@@ -10,8 +10,17 @@ import phoneBookScreen from '@/images/screen-phonebook.png'
 import loginScreen from '@/images/login-screen.png'
 import sendingMoneyScreen from '@/images/sending-money-screen.png'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, OrthographicCamera } from '@react-three/drei'
+import { Environment, Lightformer, OrbitControls, OrthographicCamera } from '@react-three/drei'
 import { PhoneModel } from '@/components/models/Phone'
+
+function Striplight(props) {
+  return (
+    <mesh {...props}>
+      <boxGeometry />
+      <meshBasicMaterial color='white' />
+    </mesh>
+  )
+}
 
 export default function Beta() {
   return (
@@ -95,13 +104,15 @@ export default function Beta() {
             raycaster={{ enabled: false }} // Disable raycasting entirely
           >
             {/* Lighting */}
-            <ambientLight intensity={0.5} />
+            {/* <ambientLight intensity={0.5} />
             <pointLight position={[20, 30, 10]} intensity={5} decay={0.2} />
-            <pointLight position={[-10, -10, -10]} intensity={3} color='blue' decay={0.2} />
-
+            <pointLight position={[-10, -10, -10]} intensity={3} color='blue' decay={0.2} /> */}
+            <Environment backgroundIntensity={0.5} preset='night' />
+            {/* <Striplight position={[10, 2, 0]} scale={[1, 3, 10]} />
+            <Striplight position={[-10, 2, 0]} scale={[1, 3, 10]} /> */}
             {/* Camera */}
             <OrthographicCamera makeDefault far={1000} near={-1000} position={[0, 0, 6]} zoom={200} />
-
+            {/* <Lightformer position={[10, 2, 0]} scale={[1, 3, 10]} /> */}
             {/* Phone Model */}
             <PhoneModel position={[0, 0, 0]} scale={2.5} />
 

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useMemo } from 'react'
-import { useGLTF, Html, Plane } from '@react-three/drei'
+import { useGLTF, Html, Plane, MeshTransmissionMaterial } from '@react-three/drei'
 import * as THREE from 'three'
 
 export function PhoneModel(props) {
@@ -48,37 +48,28 @@ export function PhoneModel(props) {
             rotation={[0, Math.PI, 0]}
             scale={1}
             geometry={<primitive object={roundedScreenGeometry} attach='geometry' />}
-            // geometry={<mesh geometry={roundedScreenGeometry} />}
             style={{
-              // backfaceVisibility: 'hidden',
               transformOrigin: 'center center',
               pointerEvents: 'none',
             }}
           >
-            <div
+            <iframe
               style={{
-                width: '365px',
+                width: '355px',
                 height: '790px',
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                color: 'white',
-                fontSize: '14px',
-                fontFamily: 'Arial, sans-serif',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
                 borderRadius: '60px',
                 transformOrigin: 'center center',
                 userSelect: 'none',
               }}
-            >
-              <h1 style={{ color: 'white', fontSize: '20px', margin: '0 0 8px 0' }}>Simple Phone</h1>
-              <p style={{ margin: '0', opacity: 0.9, fontSize: '12px' }}>Interactive Screen</p>
-            </div>
+              src='https://simp1e-money.netlify.app/'
+            />
           </Html>
         </mesh>
       )}
+      {/* <mesh position={[0, 0, -0.03]} rotation={[0, Math.PI, 0]}>
+        <primitive object={roundedScreenGeometry} attach='geometry' />{' '}
+        <MeshTransmissionMaterial transmissionSampler />
+      </mesh> */}
       {nodes.Body_Camera_Glass_0?.geometry && materials.PaletteMaterial002 && (
         <mesh geometry={nodes.Body_Camera_Glass_0.geometry} material={materials.PaletteMaterial002} />
       )}
